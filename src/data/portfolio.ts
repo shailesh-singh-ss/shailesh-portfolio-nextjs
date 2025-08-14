@@ -83,7 +83,7 @@ export const portfolioData = {
         },
         {
             name: "Express.js",
-            icon: "/assets/skills/express.png",
+            icon: "/assets/skills/Express.png",
             category: "Backend",
         },
         {
@@ -93,7 +93,7 @@ export const portfolioData = {
         },
         {
             name: "Django",
-            icon: "/assets/skills/django.png",
+            icon: "/assets/skills/Django.png",
             category: "Backend",
         },
         {
@@ -108,12 +108,12 @@ export const portfolioData = {
         },
         {
             name: "JavaScript",
-            icon: "/assets/skills/javascript.png",
+            icon: "/assets/skills/JavaScript.png",
             category: "Programming",
         },
         {
             name: "TypeScript",
-            icon: "/assets/skills/typescript.png",
+            icon: "/assets/skills/TypeScript.png",
             category: "Programming",
         },
         {
@@ -133,7 +133,7 @@ export const portfolioData = {
         },
         {
             name: "PyTorch",
-            icon: "/assets/skills/pytorch.png",
+            icon: "/assets/skills/PyTorch.png",
             category: "AI/ML",
         },
         {
@@ -149,7 +149,7 @@ export const portfolioData = {
         { name: "SQL", icon: "/assets/skills/sql.png", category: "Database" },
         {
             name: "PostgreSQL",
-            icon: "/assets/skills/postgressql.png",
+            icon: "/assets/skills/PostgresSQL.png",
             category: "Database",
         },
         {
@@ -160,12 +160,12 @@ export const portfolioData = {
         { name: "Git", icon: "/assets/skills/git.png", category: "Tools" },
         {
             name: "Postman",
-            icon: "/assets/skills/postman.png",
+            icon: "/assets/skills/Postman.png",
             category: "Tools",
         },
         {
             name: "Docker",
-            icon: "/assets/skills/docker.png",
+            icon: "/assets/skills/Docker.png",
             category: "Tools",
         },
         {
