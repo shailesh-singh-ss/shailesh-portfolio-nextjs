@@ -1,3 +1,5 @@
+import { title } from "process";
+
 export const portfolioData = {
     personal: {
         name: "Shailesh Singh",
@@ -190,7 +192,7 @@ export const portfolioData = {
         },
         {
             name: "Azure",
-            icon: "/assets/skills/azure.png",
+            icon: "/assets/skills/Azure.png",
             category: "Tools",
         },
         {
@@ -269,6 +271,43 @@ export const portfolioData = {
 
     projects: [
         {
+            title: "WealthWise",
+            description:
+                "Developed a full-stack AI finance platform called 'WealthWise' using Next.js, React, Node.js, and Prisma. An AI-powered financial management platform that helps you track, analyze, and optimize your spending with real-time insights.",
+            technologies: [
+                "Next.js",
+                "Tailwind CSS",
+                "Prisma",
+                "Shadcn UI",
+                "Clerk",
+                "Gemini AI",
+                "Vercel",
+            ],
+            image: "/assets/projects/wealthwise.png",
+            demo: "https://wealthwise-six.vercel.app/",
+            source: "https://github.com/shailesh-singh-ss/WealthWise",
+            featured: true,
+        },
+        {
+            title: "StratAGI",
+            description:
+                "Created an autonomous multi-agent business strategy platform named 'StratAGI' using Python, LangChain, and various AI models. The platform assists businesses in formulating and executing data-driven strategies by leveraging generative AI.",
+            technologies: [
+                "Python",
+                "CrewAI",
+                "LangChain",
+                "Groq",
+                "Gemini",
+                "FastAPI",
+                "Streamlit",
+                "Docker",
+            ],
+            image: "/assets/projects/stratagi.png",
+            demo: "https://github.com/shailesh-singh-ss/StratAGI",
+            source: "https://github.com/shailesh-singh-ss/StratAGI",
+            featured: true,
+        },
+        {
             title: "Blog Website",
             description:
                 "Engineered a fully functional blog platform utilizing React, Appwrite, and TailwindCSS. This project showcases my ability to develop both frontend and backend components, emphasizing secure user authentication and efficient data management.",
@@ -287,6 +326,24 @@ export const portfolioData = {
             featured: true,
         },
         {
+            title: "Leadgen Message",
+            description:
+                "A comprehensive B2B lead generation system that automatically discovers potential customers, analyzes their websites, and generates personalized outreach messages using AI.",
+            technologies: [
+                "Python",
+                "FastAPI",
+                "Uvicorn",
+                "Requests",
+                "Pydantic",
+                "BeautifulSoup4",
+                "Google Generative AI",
+            ],
+            image: "/assets/projects/leadgen.png",
+            demo: "https://github.com/shailesh-singh-ss/Leadgen_Message",
+            source: "https://github.com/shailesh-singh-ss/Leadgen_Message",
+            featured: false,
+        },
+        {
             title: "MCQ Generator",
             description:
                 "Developed an AI-powered MCQ generator using LangChain, Python, and the Cohere LLM. The system allows users to upload PDF or TXT files, specify topics, and generate editable MCQs. Features include topic selection, difficulty settings, and a review mechanism.",
@@ -301,7 +358,7 @@ export const portfolioData = {
             image: "/assets/projects/mcq_generator_project.png",
             demo: "https://mcq-generator-n5eewjaorzysa3gvqkjgfh.streamlit.app/",
             source: "https://github.com/shailesh-singh-ss/MCQ-Generator?tab=readme-ov-file#mcq-generator-with-ai",
-            featured: true,
+            featured: false,
         },
         {
             title: "Medical Chatbot",
@@ -318,7 +375,7 @@ export const portfolioData = {
             image: "/assets/projects/medical_chatbot_project.png",
             demo: "https://github.com/shailesh-singh-ss/Medical-Chat-Bot",
             source: "https://github.com/shailesh-singh-ss/Medical-Chat-Bot",
-            featured: true,
+            featured: false,
         },
         {
             title: "Youtube Backend",
@@ -344,7 +401,7 @@ export const portfolioData = {
             technologies: ["JavaScript", "HTML", "CSS", "Git"],
             image: "/assets/projects/wordle_project.png",
             demo: "https://wordle-pink-nu.vercel.app/",
-            source: "https://github.com/shailesh-singh-ss/Wordle-js/tree/main/Wordle",
+            source: "https://github.com/shailesh-singh-ss/Wordle",
             featured: false,
         },
         {
@@ -367,7 +424,7 @@ export const portfolioData = {
 
     Skills and Expertise:
     
-    Shailesh’s core technical skills: Full-stack development (React, Node.js, MongoDB), Generative AI (LangChain, LLaMA), and competitive programming (C++, Python, DSA).
+    Shailesh’s core technical skills: Full-stack development (Next.js, React, Node.js, MongoDB, PostgresSQL), Generative AI (Python, LangChain, RAG, LLM, Agentic AI, Hugging Face), and competitive programming (C++, Python, DSA).
     Tools and technologies: Next.js, ReactJS, NodeJS, Python, C++, JavaScript, MongoDB, LangChain, Crewai, SQL, Express, Git, Azure, Streamlit, PyTorch.
     Competitive programming achievements: Specialist on Codeforces, 4-star on CodeChef, and Leetcode Knight.
 
@@ -383,9 +440,9 @@ export const portfolioData = {
     Projects:
 
     Key projects include:
-    - Full Stack AI Finance Platform – "WealthWise" (Next.js, Tailwind CSS, Prisma, Shadcn UI, Clerk, Gemini AI, Vercel)
-    - Autonomous Multi-Agent Business Strategy Platform - "StratAGI" (Python, CrewAI, LangChain, Groq, Gemini, FastAPI, Streamlit, Docker)
-    - Generative AI for Healthcare - "Medical Chatbot" (Python, LangChain, ChromaDB, LLaMA3, Hugging Face, Flask)
+    - Full Stack AI Finance Platform – *WealthWise* (Next.js, Tailwind CSS, Prisma, Shadcn UI, Clerk, Gemini AI, Vercel)
+    - Autonomous Multi-Agent Business Strategy Platform - *StratAGI* (Python, CrewAI, LangChain, Groq, Gemini, FastAPI, Streamlit, Docker)
+    - Generative AI for Healthcare - *Medical Chatbot* (Python, LangChain, ChromaDB, LLaMA3, Hugging Face, Flask)
 
 
 
@@ -415,16 +472,7 @@ export const portfolioData = {
     - Avoid answering personal or irrelevant questions.
     - Keep responses under 100 words and use clear, accessible links as required.
 
-    Example Queries:
-
-    What are Shailesh’s technical skills?
-    Shailesh specializes in Generative AI & full-stack development with expertise in Next.js, React, Node.js, MongoDB, and Generative AI (Python, LangChain, ChromaDB, LLaMA3, Hugging Face). Check out more on his [GitHub](https://github.com/shailesh-singh-ss).
-
-    What’s Shailesh’s work experience?
-    Shailesh is a Gen AI Intern at Tap Health, focusing on AI-based healthcare solutions. Explore his profile on [LinkedIn].
-
-    What are Shailesh’s recent projects?
-    Shailesh developed a full-stack AI finance platform called "WealthWise", an autonomous multi-agent business strategy platform named "StratAGI", and a generative AI medical chatbot. Learn more about his projects on his [Portfolio].
+    
 
     How can I contact Shailesh for opportunities?
     Reach out via email at ss.forcoding@gmail.com or connect on LinkedIn.
@@ -435,7 +483,7 @@ export const portfolioData = {
     2. [GitHub](https://github.com/shailesh-singh-ss)
     3. [LinkedIn](https://www.linkedin.com/in/shailesh-singh-544bb3229/)
     4. [CodeChef](https://www.codechef.com/users/shailesh_s21)
-    5. [Portfolio](https://my-portfolio-shailesh.vercel.app/)
+    5. [Portfolio](https://www.shaileshsingh.tech)
     6. [Codeforces](https://codeforces.com/profile/Shailesh_21)
 
     Remember:
@@ -444,6 +492,9 @@ export const portfolioData = {
     - Only answer questions related to Shailesh Singh. Do not provide information or opinions on unrelated topics, personal matters, or general inquiries not pertaining to Shailesh.
     - Never answer questions that is not related to Shailesh Singh.
     - Always provide links with anchor tag as given in the prompt.
+
+    Output Format: Markdown
+    - Change the text message into good looking markdown
 `,
     },
 };
