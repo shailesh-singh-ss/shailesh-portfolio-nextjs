@@ -4,6 +4,7 @@ import { portfolioData } from "@/data/portfolio";
 import { Send } from "lucide-react";
 import Image from "next/image";
 import { useEffect, useRef, useState } from "react";
+import emailjs from "@emailjs/browser";
 
 export default function Contact() {
     const sectionRef = useRef<HTMLDivElement>(null);
@@ -51,15 +52,40 @@ export default function Contact() {
         e.preventDefault();
         setIsSubmitting(true);
 
-        // Simulate form submission
-        setTimeout(() => {
-            setIsSubmitting(false);
+        
+        try {
+            // EmailJS configuration
+            const templateParams = {
+                name: formData.name,
+                email: formData.email,
+                subject: formData.subject,
+                message: formData.message,
+                time: new Date().toLocaleString('en-IN', {
+                    timeZone: 'Asia/Kolkata',
+                    year: 'numeric',
+                    month: 'long',
+                    day: 'numeric',
+                    hour: '2-digit',
+                    minute: '2-digit',
+                }),
+            };
+
+            await emailjs.send(
+                process.env.NEXT_PUBLIC_EMAILJS_SERVICE_ID!,
+                process.env.NEXT_PUBLIC_EMAILJS_TEMPLATE_ID!,
+                templateParams,
+                process.env.NEXT_PUBLIC_EMAILJS_PUBLIC_KEY!
+            );
+
             setSubmitStatus("success");
             setFormData({ name: "", email: "", subject: "", message: "" });
-
-            // Reset status after 3 seconds
+        } catch (error) {
+            console.error("EmailJS error:", error);
+            setSubmitStatus("error");
+        } finally {
+            setIsSubmitting(false);
             setTimeout(() => setSubmitStatus("idle"), 3000);
-        }, 2000);
+        }
     };
 
     return (

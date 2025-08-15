@@ -77,6 +77,11 @@ export const portfolioData = {
             category: "Frontend",
         },
         {
+            name: "Streamlit",
+            icon: "/assets/skills/Streamlit.png",
+            category: "Frontend",
+        },
+        {
             name: "Node.js",
             icon: "/assets/skills/node.png",
             category: "Backend",
@@ -178,6 +183,26 @@ export const portfolioData = {
             icon: "/assets/skills/copilot.png",
             category: "Tools",
         },
+        {
+            name: "Selenium",
+            icon: "/assets/skills/Selenium.png",
+            category: "Tools",
+        },
+        {
+            name: "Azure",
+            icon: "/assets/skills/azure.png",
+            category: "Tools"
+        },
+        {
+            name: "GCP",
+            icon: "/assets/skills/Google Cloud.png",
+            category: "Tools"
+        },
+        {
+            name: "Confluence",
+            icon: "/assets/skills/Confluence.png",
+            category: "Tools"
+        }
     ],
 
     achievements: {
