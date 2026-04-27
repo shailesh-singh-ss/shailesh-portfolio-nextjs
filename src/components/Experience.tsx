@@ -1,188 +1,152 @@
 "use client";
 
+import { motion } from "framer-motion";
+import { useState } from "react";
+import { ChevronRight } from "lucide-react";
 import { portfolioData } from "@/data/portfolio";
-import { scrollToSection } from "@/lib/utils";
-import { Calendar, MapPin } from "lucide-react";
-import Image from "next/image";
-import { useEffect, useRef } from "react";
+
+function shortHash(seed: string) {
+  let h = 0;
+  for (let i = 0; i < seed.length; i++) h = (h << 5) - h + seed.charCodeAt(i);
+  return Math.abs(h).toString(16).padStart(7, "0").slice(0, 7);
+}
 
 export default function Experience() {
-    const sectionRef = useRef<HTMLDivElement>(null);
+  const [open, setOpen] = useState<number[]>([0]);
 
-    useEffect(() => {
-        const observer = new IntersectionObserver(
-            (entries) => {
-                entries.forEach((entry) => {
-                    if (entry.isIntersecting) {
-                        entry.target.classList.add("animate-fade-in");
-                    }
-                });
-            },
-            { threshold: 0.1 }
-        );
+  const toggle = (i: number) =>
+    setOpen((prev) => (prev.includes(i) ? prev.filter((x) => x !== i) : [...prev, i]));
 
-        if (sectionRef.current) {
-            observer.observe(sectionRef.current);
-        }
-
-        return () => observer.disconnect();
-    }, []);
-
-    return (
-        <div ref={sectionRef} className="section-padding bg-gray-900">
-            <div className="container-custom">
-                <div className="text-center mb-16">
-                    <h2 className="text-4xl md:text-5xl font-bold text-white mb-4">
-                        Professional{" "}
-                        <span className="text-gradient">Journey</span>
-                    </h2>
-                    <p className="text-xl text-gray-400 max-w-3xl mx-auto">
-                        My career path and professional experiences in software
-                        development and AI
-                    </p>
-                </div>
-
-                <div className="relative">
-                    {/* Timeline line */}
-                    <div className="absolute left-8 md:left-1/2 top-0 bottom-0 w-0.5 bg-gradient-to-b from-primary-500 to-accent-500 transform md:-translate-x-1/2"></div>
-
-                    {/* Experience items */}
-                    <div className="space-y-12">
-                        {portfolioData.experience.map((exp, index) => (
-                            <div
-                                key={index}
-                                className={`flex flex-col md:flex-row gap-8 items-center ${
-                                    index % 2 === 0
-                                        ? "md:flex-row"
-                                        : "md:flex-row-reverse"
-                                }`}
-                            >
-                                {/* Timeline dot */}
-                                <div className="absolute left-8 md:left-1/2 w-4 h-4 bg-gradient-to-br from-primary-500 to-accent-500 rounded-full transform md:-translate-x-1/2 border-4 border-gray-900"></div>
-
-                                {/* Content */}
-                                <div
-                                    className={`flex-1 ml-16 md:ml-0 ${
-                                        index % 2 === 0 ? "md:pr-8" : "md:pl-8"
-                                    }`}
-                                >
-                                    <div className="glass-card p-8 hover:bg-white/10 transition-all duration-300 transform hover:scale-105">
-                                        {/* Header */}
-                                        <div className="mb-6">
-                                            <div className="flex items-center gap-2 mb-2">
-                                                {exp.type === "current" && (
-                                                    <span className="px-3 py-1 bg-gradient-to-r from-green-500 to-emerald-500 text-white text-sm font-semibold rounded-full">
-                                                        Current
-                                                    </span>
-                                                )}
-                                                <div className="flex items-center gap-2 text-gray-400">
-                                                    <Calendar size={16} />
-                                                    <span>{exp.duration}</span>
-                                                </div>
-                                            </div>
-
-                                            <h3 className="text-2xl font-bold text-white mb-1">
-                                                {exp.title}
-                                            </h3>
-
-                                            <div className="flex items-center gap-2 text-primary-400 font-semibold">
-                                                <MapPin size={16} />
-                                                <span>{exp.company}</span>
-                                            </div>
-                                        </div>
-
-                                        {/* Description */}
-                                        <p className="text-gray-300 leading-relaxed mb-6">
-                                            {exp.description}
-                                        </p>
-
-                                        {/* Technologies */}
-                                        <div className="space-y-4">
-                                            <h4 className="text-lg font-semibold text-white">
-                                                Technologies Used:
-                                            </h4>
-                                            <div className="flex flex-wrap gap-2">
-                                                {exp.technologies.map(
-                                                    (tech, techIndex) => (
-                                                        <span
-                                                            key={techIndex}
-                                                            className="px-3 py-1 bg-gray-700 text-gray-200 rounded-full text-sm border border-gray-600 hover:border-primary-500 transition-colors duration-300"
-                                                        >
-                                                            {tech}
-                                                        </span>
-                                                    )
-                                                )}
-                                            </div>
-                                        </div>
-                                    </div>
-                                </div>
-
-                                {/* Placeholder for company logo or illustration */}
-                                <div
-                                    className={`flex-shrink-0 hidden md:block ${
-                                        index % 2 === 0
-                                            ? "md:order-last"
-                                            : "md:order-first"
-                                    }`}
-                                >
-                                    <div className="w-32 h-32 bg-gradient-to-br from-gray-800 to-gray-700 rounded-2xl border border-gray-600 flex items-center justify-center">
-                                        <div className="text-center">
-                                            <div className="w-16 h-16 bg-gradient-to-br from-primary-500 to-accent-500 rounded-full mx-auto mb-2 flex items-center justify-center">
-                                                <Image
-                                                    src={exp.logo}
-                                                    alt={exp.company}
-                                                    width={64}
-                                                    height={64}
-                                                    className="object-contain rounded-full"
-                                                />
-                                            </div>
-                                            <span className="text-gray-400 text-sm font-medium">
-                                                {exp.company}
-                                            </span>
-                                        </div>
-                                    </div>
-                                </div>
-                            </div>
-                        ))}
-                    </div>
-                </div>
-
-                {/* Future goals section */}
-                <div className="mt-20">
-                    <div className="glass-card p-8 md:p-12 text-center">
-                        <h3 className="text-2xl md:text-3xl font-bold text-white mb-6">
-                            What&apos;s Next?
-                        </h3>
-                        <p className="text-lg text-gray-300 mb-8 max-w-3xl mx-auto">
-                            I&apos;m actively seeking opportunities to contribute to
-                            innovative projects in full-stack development and
-                            generative AI. Looking forward to collaborating with
-                            teams that value creativity, technical excellence,
-                            and cutting-edge solutions.
-                        </p>
-                        <div className="flex flex-col sm:flex-row gap-4 justify-center">
-                            <button
-                                onClick={() => {
-                                    console.log("Let's Connect button clicked");
-                                    scrollToSection("contact");
-                                }}
-                                className="glow-button bg-gradient-to-r from-primary-500 to-accent-500 text-white px-8 py-3 rounded-lg font-semibold transition-all duration-300 hover:scale-105"
-                            >
-                                Let&apos;s Connect
-                            </button>
-                            <button
-                                onClick={() => {
-                                    console.log("View Projects button clicked");
-                                    scrollToSection("projects");
-                                }}
-                                className="border border-primary-500 text-primary-400 px-8 py-3 rounded-lg font-semibold transition-all duration-300 hover:bg-primary-500 hover:text-white hover:scale-105"
-                            >
-                                View Projects
-                            </button>
-                        </div>
-                    </div>
-                </div>
-            </div>
+  return (
+    <div className="section-padding">
+      <div className="container-custom">
+        <div className="mb-10">
+          <div className="font-mono text-xs text-ink-500 mb-2">
+            <span className="text-lime-400">$</span> git log --author=&quot;Shailesh&quot; --oneline
+          </div>
+          <h2 className="font-mono text-3xl sm:text-4xl text-bone-50 font-bold tracking-tight">
+            ~/work_history
+          </h2>
+          <p className="font-mono text-sm text-bone-400 mt-2">
+            {"// commits in reverse chronological order"}
+          </p>
         </div>
-    );
+
+        <div className="relative pl-8 sm:pl-10">
+          <div
+            className="absolute left-2 sm:left-3 top-2 bottom-2 w-px bg-gradient-to-b from-lime-400/60 via-ink-700 to-transparent"
+            aria-hidden
+          />
+
+          <div className="space-y-4">
+            {portfolioData.experience.map((exp, i) => {
+              const isOpen = open.includes(i);
+              const hash = shortHash(`${exp.company}-${exp.title}`);
+              return (
+                <motion.div
+                  key={exp.company + i}
+                  initial={{ opacity: 0, x: 8 }}
+                  whileInView={{ opacity: 1, x: 0 }}
+                  viewport={{ once: true, margin: "-60px" }}
+                  transition={{ delay: i * 0.06 }}
+                  className="relative"
+                >
+                  <div
+                    className="absolute -left-[26px] sm:-left-[34px] top-3 w-3.5 h-3.5 rounded-full border-2 border-lime-400 bg-ink-950 shadow-[0_0_0_4px_rgba(163,230,53,0.08)]"
+                    aria-hidden
+                  />
+
+                  <button
+                    type="button"
+                    onClick={() => toggle(i)}
+                    className="w-full text-left bg-ink-900 border border-ink-700 hover:border-lime-400/40 rounded-md transition-colors group"
+                  >
+                    <div className="px-4 sm:px-5 py-3.5 flex flex-wrap items-center gap-x-3 gap-y-1 font-mono text-sm">
+                      <ChevronRight
+                        size={14}
+                        className={`text-ink-500 transition-transform ${
+                          isOpen ? "rotate-90 text-lime-400" : ""
+                        }`}
+                      />
+                      <span className="text-lime-400">{hash}</span>
+                      {exp.type === "current" && (
+                        <span className="text-bone-400">
+                          (HEAD &rarr;{" "}
+                          <span className="text-lime-400">main</span>)
+                        </span>
+                      )}
+                      <span className="text-bone-100 font-medium">
+                        {exp.title}
+                      </span>
+                      <span className="text-bone-500">@</span>
+                      <span className="text-bone-100">{exp.company}</span>
+                      <span className="ml-auto text-bone-500 text-xs">
+                        {exp.duration}
+                      </span>
+                    </div>
+
+                    <motion.div
+                      initial={false}
+                      animate={{
+                        height: isOpen ? "auto" : 0,
+                        opacity: isOpen ? 1 : 0,
+                      }}
+                      transition={{ duration: 0.25 }}
+                      className="overflow-hidden"
+                    >
+                      <div className="px-4 sm:px-5 pb-5 pt-1 border-t border-ink-700">
+                        <div className="font-mono text-sm text-bone-300 mb-4">
+                          <span className="text-ink-500">| Author:</span>{" "}
+                          {exp.title} @ {exp.company}
+                        </div>
+                        <div className="font-mono text-sm text-bone-300 mb-4">
+                          <span className="text-ink-500">| Date:</span>{" "}
+                          {exp.duration}
+                          {exp.location && (
+                            <>
+                              {"  "}
+                              <span className="text-ink-500">| Location:</span>{" "}
+                              {exp.location}
+                            </>
+                          )}
+                        </div>
+                        <div className="font-mono text-sm text-bone-100 mb-3">
+                          <span className="text-ink-500">|</span>{" "}
+                          <span className="text-lime-400">Summary:</span>{" "}
+                          {exp.summary}
+                        </div>
+                        <ul className="space-y-2 mb-5">
+                          {exp.bullets.map((b, j) => (
+                            <li
+                              key={j}
+                              className="font-mono text-sm text-bone-300 leading-relaxed"
+                            >
+                              <span className="text-ink-500">|</span>{" "}
+                              <span className="text-lime-400/80">─</span> {b}
+                            </li>
+                          ))}
+                        </ul>
+                        <div className="flex flex-wrap gap-1.5">
+                          {exp.technologies.map((t) => (
+                            <span key={t} className="badge-tag">
+                              {t}
+                            </span>
+                          ))}
+                        </div>
+                      </div>
+                    </motion.div>
+                  </button>
+                </motion.div>
+              );
+            })}
+
+            <div className="font-mono text-xs text-ink-500 pl-1 pt-2">
+              <span className="text-lime-400">▌</span> end of log · 2 commits
+              shown
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  );
 }

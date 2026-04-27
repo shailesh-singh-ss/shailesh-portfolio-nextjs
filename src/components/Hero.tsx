@@ -1,270 +1,201 @@
 "use client";
 
-import { useState, useEffect } from "react";
-import Image from "next/image";
-import { ChevronDown, Download, Mail } from "lucide-react";
+import dynamic from "next/dynamic";
+import { motion } from "framer-motion";
+import { Github, Linkedin, Mail, Download, ArrowRight } from "lucide-react";
 import { portfolioData } from "@/data/portfolio";
 import { scrollToSection } from "@/lib/utils";
+import TermWindow from "@/components/ui/TermWindow";
+
+const HeroCanvas = dynamic(() => import("@/components/three/HeroCanvas"), {
+  ssr: false,
+  loading: () => (
+    <div className="w-full h-full flex items-center justify-center text-ink-500 font-mono text-xs">
+      <span className="animate-pulse">{"// loading geometry..."}</span>
+    </div>
+  ),
+});
+
+const lines = [
+  { glyph: "$", cmd: "whoami", out: "Shailesh Singh" },
+  { glyph: "$", cmd: "role", out: "AI Engineer · Real-time AI Systems" },
+  { glyph: "$", cmd: "company", out: "Zykrr · Sep 2025 — Present" },
+  { glyph: "$", cmd: "location", out: "Gurgaon, Haryana, India" },
+  { glyph: "$", cmd: "stack | head", out: "Gen AI · ClickHouse · K8s · LiveKit · LangChain" },
+];
 
 export default function Hero() {
-    const [text, setText] = useState("");
-    const [isDeleting, setIsDeleting] = useState(false);
-    const [loopNum, setLoopNum] = useState(0);
-    const [typingSpeed, setTypingSpeed] = useState(150);
+  return (
+    <div className="relative min-h-screen flex items-center pt-24 pb-12 overflow-hidden">
+      <div className="absolute inset-0 grid-bg opacity-60 pointer-events-none" />
+      <div className="absolute inset-x-0 top-1/3 h-px bg-gradient-to-r from-transparent via-lime-400/30 to-transparent" />
 
-    
-    useEffect(() => {
-        const titles = [
-            "Software Developer",
-            "AI Enthusiast",
-            "Full Stack Developer",
-            "Competitive Programmer",
-        ];
-        const handleTyping = () => {
-            const current = loopNum % titles.length;
-            const fullText = titles[current];
+      <div className="container-custom px-4 sm:px-6 lg:px-10 w-full">
+        <div className="grid lg:grid-cols-[1.05fr_0.95fr] gap-10 lg:gap-16 items-center">
+          <motion.div
+            initial="hidden"
+            animate="show"
+            variants={{
+              hidden: {},
+              show: { transition: { staggerChildren: 0.08 } },
+            }}
+          >
+            <motion.p
+              variants={{
+                hidden: { opacity: 0, y: 6 },
+                show: { opacity: 1, y: 0 },
+              }}
+              className="text-xs text-bone-500 font-mono mb-3 tracking-wider"
+            >
+              <span className="text-lime-400">▌</span> connection established
+            </motion.p>
 
-            setText(
-                isDeleting
-                    ? fullText.substring(0, text.length - 1)
-                    : fullText.substring(0, text.length + 1)
-            );
-
-            setTypingSpeed(isDeleting ? 30 : 150);
-
-            if (!isDeleting && text === fullText) {
-                setTimeout(() => setIsDeleting(true), 2000);
-            } else if (isDeleting && text === "") {
-                setIsDeleting(false);
-                setLoopNum(loopNum + 1);
-            }
-        };
-
-        const timer = setTimeout(handleTyping, typingSpeed);
-        return () => clearTimeout(timer);
-    }, [text, isDeleting, loopNum, typingSpeed]);
-
-    return (
-        <div className="min-h-screen flex items-center justify-center section-padding bg-gradient-to-b from-gray-900 via-gray-800 to-gray-900 relative overflow-hidden">
-            {/* Animated background effects */}
-            <div className="absolute inset-0">
-                {/* Floating orbs */}
-                <div className="absolute top-20 left-20 w-64 h-64 bg-primary-500/10 rounded-full blur-3xl animate-float-fast"></div>
-                <div className="absolute top-40 right-32 w-48 h-48 bg-accent-500/10 rounded-full blur-2xl animate-float-medium"></div>
-                <div className="absolute bottom-32 left-1/4 w-32 h-32 bg-emerald-500/10 rounded-full blur-xl animate-float-fast"></div>
-                <div className="absolute bottom-20 right-20 w-40 h-40 bg-purple-500/10 rounded-full blur-2xl animate-float-medium"></div>
-
-                {/* Grid pattern */}
-                <div className="absolute inset-0 opacity-20">
-                    <div
-                        className="w-full h-full"
-                        style={{
-                            backgroundImage: `
-              linear-gradient(rgba(59, 130, 246, 0.1) 1px, transparent 1px),
-              linear-gradient(90deg, rgba(59, 130, 246, 0.1) 1px, transparent 1px)
-            `,
-                            backgroundSize: "50px 50px",
-                        }}
-                    ></div>
-                </div>
-            </div>
-            <div className="container-custom">
-                <div className="grid lg:grid-cols-2 gap-32 items-center">
-                    {/* Left Content */}
-                    <div className="space-y-8 animate-slide-in-left">
-                        {/* Greeting */}
-                        <div className="space-y-4">
-                            <p className="text-primary-400 text-lg font-semibold">
-                                Hello, I&apos;m
-                            </p>
-                            <h1 className="text-5xl lg:text-7xl font-bold text-white leading-tight">
-                                {portfolioData.personal.name}
-                            </h1>
-                            <h2 className="text-2xl lg:text-3xl text-gray-300 min-h-[40px]">
-                                I&apos;m a{" "}
-                                <span className="text-gradient font-semibold">
-                                    {text}
-                                    <span className="animate-pulse">|</span>
-                                </span>
-                            </h2>
-                            <p className="text-gray-400 text-lg leading-relaxed max-w-2xl">
-                                {portfolioData.personal.subtitle}
-                            </p>
-                        </div>
-
-                        {/* Call to Action Buttons */}
-                        <div className="flex flex-col sm:flex-row gap-4">
-                            <button
-                                onClick={() => {
-                                    console.log("Contact button clicked");
-                                    scrollToSection("contact");
-                                }}
-                                className="glow-button flex items-center justify-center gap-2 bg-gradient-to-r from-primary-500 to-accent-500 text-white px-8 py-3 rounded-lg font-semibold transition-all duration-300 hover:scale-105"
-                            >
-                                <Mail size={20} />
-                                Contact Me
-                            </button>
-                            <a
-                                href={portfolioData.personal.resume}
-                                target="_blank"
-                                rel="noopener noreferrer"
-                                className="flex items-center justify-center gap-2 border border-primary-500 text-primary-400 px-8 py-3 rounded-lg font-semibold transition-all duration-300 hover:bg-primary-500 hover:text-white hover:scale-105"
-                            >
-                                <Download size={20} />
-                                Download CV
-                            </a>
-                        </div>
-
-                        {/* Social Links */}
-                        <div className="flex space-x-4">
-                            <a
-                                href={portfolioData.personal.social.github}
-                                target="_blank"
-                                rel="noopener noreferrer"
-                                aria-label="GitHub Profile"
-                                className="w-12 h-12 flex items-center justify-center rounded-full border border-gray-600 text-gray-400 hover:border-primary-500 hover:text-primary-400 transition-all duration-300 hover:scale-110"
-                            >
-                                <Image
-                                    src="/assets/contact/githubIcon.png"
-                                    alt="GitHub"
-                                    width={24}
-                                    height={24}
-                                />
-                            </a>
-                            <a
-                                href={portfolioData.personal.social.linkedin}
-                                target="_blank"
-                                rel="noopener noreferrer"
-                                aria-label="LinkedIn Profile"
-                                className="w-12 h-12 flex items-center justify-center rounded-full border border-gray-600 text-gray-400 hover:border-primary-500 hover:text-primary-400 transition-all duration-300 hover:scale-110"
-                            >
-                                <Image
-                                    src="/assets/contact/linkedinIcon.png"
-                                    alt="LinkedIn"
-                                    width={24}
-                                    height={24}
-                                />
-                            </a>
-                            <a
-                                href={`mailto:${portfolioData.personal.email}`}
-                                aria-label="Email Contact"
-                                className="w-12 h-12 flex items-center justify-center rounded-full border border-gray-600 text-gray-400 hover:border-primary-500 hover:text-primary-400 transition-all duration-300 hover:scale-110"
-                            >
-                                <Image
-                                    src="/assets/contact/emailIcon.png"
-                                    alt="Email"
-                                    width={24}
-                                    height={24}
-                                />
-                            </a>
-                        </div>
+            <TermWindow
+              title="~/shailesh — bash"
+              subtitle={`status: 200 ok`}
+              glow
+            >
+              <div className="space-y-2.5">
+                {lines.map((line, i) => (
+                  <motion.div
+                    key={line.cmd}
+                    initial={{ opacity: 0, y: 4 }}
+                    animate={{ opacity: 1, y: 0 }}
+                    transition={{ delay: 0.4 + i * 0.18, duration: 0.3 }}
+                  >
+                    <div className="flex items-baseline gap-2 text-sm">
+                      <span className="text-lime-400">{line.glyph}</span>
+                      <span className="text-bone-100">{line.cmd}</span>
                     </div>
-
-                    {/* Right Content - Hero Image */}
-                    <div className="relative animate-slide-in-right">
-                        <div className="relative">
-                            {/* Enhanced floating animation container */}
-                            <div className="animate-float-slow">
-                                <div className="relative w-full max-w-md mx-auto">
-                                    {/* Enhanced glow effect with multiple layers */}
-                                    {/* <div className="absolute -inset-6 bg-gradient-to-r from-primary-500/30 to-accent-500/30 rounded-full blur-3xl animate-pulse-glow"></div> */}
-                                    <div className="absolute -inset-4 bg-gradient-to-r from-blue-500/20 to-cyan-500/20 rounded-full blur-2xl animate-morph"></div>
-
-                                    {/* Main image with enhanced styling */}
-                                    <div className="relative bg-gradient-to-br from-gray-800 to-gray-900 rounded-full p-6 border border-gray-700 glass-card-enhanced hover-lift">
-                                        <Image
-                                            src="/assets/hero/heroImage.png"
-                                            alt="Shailesh Singh"
-                                            width={400}
-                                            height={400}
-                                            className="rounded-full w-full h-auto"
-                                            priority
-                                        />
-
-                                        {/* Floating particles around image */}
-                                        <div className="absolute inset-0 animate-float-medium">
-                                            <div className="absolute -top-4 -left-4 w-3 h-3 bg-primary-400 rounded-full animate-float-fast"></div>
-                                            <div className="absolute -top-2 -right-6 w-2 h-2 bg-accent-400 rounded-full animate-float-medium"></div>
-                                            <div className="absolute -bottom-6 -left-2 w-4 h-4 bg-emerald-400 rounded-full animate-float-slow"></div>
-                                            <div className="absolute -bottom-4 -right-4 w-2 h-2 bg-purple-400 rounded-full animate-float-fast"></div>
-                                            <div className="absolute top-1/4 -left-8 w-1 h-1 bg-white rounded-full animate-float-medium"></div>
-                                            <div className="absolute top-3/4 -right-8 w-1 h-1 bg-blue-300 rounded-full animate-float-slow"></div>
-                                        </div>
-                                    </div>
-                                </div>
-                            </div>
-
-                            {/* Floating tech icons */}
-                            <div className="absolute top-10 -left-10 animate-float-medium">
-                                <div className="w-16 h-16 bg-gray-800 rounded-lg flex items-center justify-center border border-gray-700 glass-card">
-                                    <Image
-                                        src="/assets/skills/react.png"
-                                        alt="React"
-                                        width={32}
-                                        height={32}
-                                    />
-                                </div>
-                            </div>
-
-                            <div className="absolute top-20 -right-10 animate-float-fast">
-                                <div className="w-14 h-14 bg-gray-800 rounded-lg flex items-center justify-center border border-gray-700 glass-card">
-                                    <Image
-                                        src="/assets/skills/python.png"
-                                        alt="Python"
-                                        width={28}
-                                        height={28}
-                                    />
-                                </div>
-                            </div>
-
-                            <div className="absolute bottom-20 -left-8 animate-float-fast">
-                                <div className="w-12 h-12 bg-gray-800 rounded-lg flex items-center justify-center border border-gray-700 glass-card">
-                                    <Image
-                                        src="/assets/skills/node.png"
-                                        alt="Node.js"
-                                        width={24}
-                                        height={24}
-                                    />
-                                </div>
-                            </div>
-                            <div className="absolute bottom-10 -right-10 animate-float-slow">
-                                <div className="w-16 h-16 bg-gray-800 rounded-lg flex items-center justify-center border border-gray-700 glass-card">
-                                    <Image
-                                        src="/assets/skills/langchain.png"
-                                        alt="LangChain"
-                                        width={32}
-                                        height={32}
-                                    />
-                                </div>
-                            </div>
-                            <div className="absolute left-20 animate-float-medium">
-                                <div className="w-12 h-12 bg-gray-800 rounded-lg flex items-center justify-center border border-gray-700 glass-card">
-                                    <Image
-                                        src="/assets/skills/html.png"
-                                        alt="HTML"
-                                        width={24}
-                                        height={24}
-                                    />
-                                </div>
-                            </div>
-                        </div>
+                    <div className="pl-4 mt-0.5 text-bone-300 text-sm">
+                      {i === 0 ? (
+                        <span className="text-2xl sm:text-3xl lg:text-4xl font-mono font-bold text-bone-50 tracking-tight block py-1">
+                          {line.out}
+                        </span>
+                      ) : i === 1 ? (
+                        <span className="text-lime-400 font-medium text-base sm:text-lg">
+                          {line.out}
+                        </span>
+                      ) : (
+                        line.out
+                      )}
                     </div>
-                </div>
+                  </motion.div>
+                ))}
 
-                {/* Scroll indicator */}
-                <div className="absolute bottom-8 left-1/2 transform -translate-x-1/2 animate-bounce hidden md:flex">
-                    <button
-                        onClick={() => {
-                            console.log("Scroll down button clicked");
-                            scrollToSection("about");
-                        }}
-                        className="flex flex-col items-center text-gray-400 hover:text-primary-400 transition-colors duration-300"
-                    >
-                        <span className="text-sm mb-2">Scroll Down</span>
-                        <ChevronDown size={24} />
-                    </button>
-                </div>
+                <motion.div
+                  initial={{ opacity: 0 }}
+                  animate={{ opacity: 1 }}
+                  transition={{ delay: 0.4 + lines.length * 0.18 }}
+                  className="flex items-baseline gap-2 text-sm pt-1"
+                >
+                  <span className="text-lime-400">$</span>
+                  <span
+                    className="text-lime-400 inline-block"
+                    style={{ animation: "blink 1s steps(2) infinite" }}
+                  >
+                    ▌
+                  </span>
+                </motion.div>
+              </div>
+            </TermWindow>
+
+            <motion.p
+              initial={{ opacity: 0 }}
+              animate={{ opacity: 1 }}
+              transition={{ delay: 1.4 }}
+              className="mt-6 text-bone-400 font-sans leading-relaxed max-w-xl"
+            >
+              {portfolioData.personal.subtitle}
+            </motion.p>
+
+            <motion.div
+              initial={{ opacity: 0, y: 6 }}
+              animate={{ opacity: 1, y: 0 }}
+              transition={{ delay: 1.55 }}
+              className="mt-6 flex flex-wrap gap-3"
+            >
+              <button
+                type="button"
+                onClick={() => scrollToSection("contact")}
+                className="term-button-primary"
+              >
+                <span className="text-current">$</span> ./contact --message
+                <ArrowRight size={14} />
+              </button>
+              <a
+                href={portfolioData.personal.resume}
+                target="_blank"
+                rel="noopener noreferrer"
+                className="term-button"
+              >
+                <Download size={14} /> resume.pdf
+              </a>
+            </motion.div>
+
+            <motion.div
+              initial={{ opacity: 0 }}
+              animate={{ opacity: 1 }}
+              transition={{ delay: 1.7 }}
+              className="mt-6 flex items-center gap-3 text-bone-400"
+            >
+              <a
+                href={portfolioData.personal.social.github}
+                target="_blank"
+                rel="noopener noreferrer"
+                aria-label="GitHub"
+                className="hover:text-lime-400 transition-colors"
+              >
+                <Github size={18} />
+              </a>
+              <a
+                href={portfolioData.personal.social.linkedin}
+                target="_blank"
+                rel="noopener noreferrer"
+                aria-label="LinkedIn"
+                className="hover:text-lime-400 transition-colors"
+              >
+                <Linkedin size={18} />
+              </a>
+              <a
+                href={`mailto:${portfolioData.personal.email}`}
+                aria-label="Email"
+                className="hover:text-lime-400 transition-colors"
+              >
+                <Mail size={18} />
+              </a>
+              <span className="text-ink-600 mx-1">·</span>
+              <span className="text-xs font-mono text-ink-500">
+                press{" "}
+                <span className="kbd">tab</span> to traverse · pid{" "}
+                <span className="text-lime-400">2026</span>
+              </span>
+            </motion.div>
+          </motion.div>
+
+          <motion.div
+            initial={{ opacity: 0, scale: 0.92 }}
+            animate={{ opacity: 1, scale: 1 }}
+            transition={{ delay: 0.6, duration: 0.7 }}
+            className="relative h-[420px] sm:h-[520px] lg:h-[560px]"
+          >
+            <div className="absolute inset-0 rounded-2xl border border-ink-700 bg-ink-900/40 overflow-hidden">
+              <div className="absolute top-0 inset-x-0 px-4 py-2 border-b border-ink-700 bg-ink-800/40 flex items-center justify-between font-mono text-[11px] z-10">
+                <span className="text-bone-400">~/system-render.glsl</span>
+                <span className="text-lime-400 animate-pulse-soft">● live</span>
+              </div>
+              <div className="absolute inset-0 pt-8">
+                <HeroCanvas />
+              </div>
+              <div className="absolute bottom-0 inset-x-0 p-3 font-mono text-[11px] border-t border-ink-700 bg-ink-800/40 flex items-center justify-between z-10">
+                <span className="text-ink-500">fps: <span className="text-bone-300">~60</span></span>
+                <span className="text-ink-500">geom: icosahedron@1.4r</span>
+                <span className="text-ink-500">∫ {`{drift, bob, rot}`}</span>
+              </div>
             </div>
+          </motion.div>
         </div>
-    );
+      </div>
+    </div>
+  );
 }

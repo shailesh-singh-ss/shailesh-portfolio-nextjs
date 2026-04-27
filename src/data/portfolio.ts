@@ -1,13 +1,52 @@
-import { title } from "process";
+export type Skill = {
+    name: string;
+    icon?: string;
+    category:
+        | "Languages"
+        | "AI/ML & GenAI"
+        | "Backend & Systems"
+        | "DevOps & Cloud"
+        | "Databases"
+        | "Core Strengths";
+};
+
+export type Experience = {
+    title: string;
+    company: string;
+    duration: string;
+    location?: string;
+    logo: string;
+    summary: string;
+    bullets: string[];
+    technologies: string[];
+    type: "current" | "past";
+};
+
+export type Project = {
+    title: string;
+    tagline: string;
+    description: string;
+    technologies: string[];
+    image: string;
+    demo: string;
+    source: string;
+    featured: boolean;
+    metric?: string;
+};
 
 export const portfolioData = {
     personal: {
         name: "Shailesh Singh",
-        title: "Software Developer & Generative AI Enthusiast",
-        subtitle: "Building innovative solutions with cutting-edge technology",
-        bio: "I'm a passionate software engineer specializing in full-stack development, generative AI, and competitive programming. With expertise in developing and fine-tuning large language models, I create innovative AI-powered solutions that solve real-world problems across healthcare, education, and technology domains. My experience spans from building scalable web applications to deploying production-ready AI systems using cutting-edge frameworks and cloud technologies.",
+        handle: "shailesh_singh@zykrr",
+        title: "AI Engineer · Real-time AI Systems",
+        subtitle:
+            "Building real-time AI: distributed CX pipelines, low-latency voice agents, and LLM-driven analytics at production scale.",
+        bio: "I'm an AI Engineer at Zykrr where I design real-time systems that turn live customer feedback into structured insight. My day-to-day spans Apache Kafka pipelines moving 34.56M+ events/day from PostgreSQL to ClickHouse, LLM-powered analytics (text mining, issue detection, summarization), AI-driven survey builders, and low-latency STT → LLM → TTS voice agents on LiveKit. I lean toward fault-tolerant design — Kubernetes, DLQs, recovery — and care about latency, accuracy, and what happens when production breaks at 3am.",
         email: "ss.forcoding@gmail.com",
-        resume: "https://drive.google.com/file/d/19iYfN0EjPmNk-6KZwG6nkBUv1ra3CSoW/view?usp=sharing",
+        phone: "+91-6201237193",
+        location: "Gurgaon, Haryana, India",
+        resume:
+            "https://drive.google.com/file/d/19iYfN0EjPmNk-6KZwG6nkBUv1ra3CSoW/view?usp=sharing",
         social: {
             github: "https://github.com/shailesh-singh-ss",
             linkedin: "https://www.linkedin.com/in/shailesh-singh-544bb3229",
@@ -15,236 +54,207 @@ export const portfolioData = {
         },
     },
 
+    impact: [
+        {
+            metric: "34.56M+",
+            label: "events/day",
+            sub: "Kafka · Postgres → ClickHouse",
+        },
+        {
+            metric: "STT → LLM → TTS",
+            label: "voice pipelines",
+            sub: "low-latency on LiveKit",
+        },
+        {
+            metric: "K8s",
+            label: "distributed scaling",
+            sub: "Kafka consumers · HA",
+        },
+        {
+            metric: "DLQ",
+            label: "fault tolerance",
+            sub: "recovery · production debugging",
+        },
+    ],
+
     about: {
-        description:
-            "I'm a fresher software engineer interested in full-stack development, generative AI and competitive programming. In this guide, I will detail my history, skillset, and passions in these realms so you can have a better understanding of the full range of what i'm able to and aim to accomplish.",
-        skills: [
-            {
-                category: "Generative AI",
-                description:
-                    "I specialize in developing AI models using LangChain, PyTorch, and Hugging Face. My expertise includes NLP, content generation, LLMs, vector databases, and RAG architectures. I've deployed AI solutions for healthcare and education using Azure Cloud.",
-                icon: "/assets/about/aiIcon.png",
-            },
-            {
-                category: "Full Stack Developer",
-                description:
-                    "I'm a full-stack developer with experience in building responsive frontend interfaces and optimized backend systems and APIs",
-                icon: "/assets/about/cursorIcon.png",
-            },
-            {
-                category: "Competitive Programmer",
-                description:
-                    "I'm a competitive programmer with extensive experience in solving algorithmic challenges and participating in coding competitions.",
-                icon: "/assets/about/uiIcon.png",
-            },
+        intro:
+            "AI engineer with a systems mindset. I build real-time AI infrastructure — from streaming pipelines to LLM analytics to conversational voice agents — and I'm happiest when latency, correctness, and resilience all have to hold at once.",
+        tags: [
+            { label: "ai/ml", description: "LLMs · RAG · LangChain · agents" },
+            { label: "real-time", description: "Kafka · ClickHouse · LiveKit" },
+            { label: "distributed", description: "Kubernetes · MSK · async" },
+            { label: "production", description: "DLQ · debugging · observability" },
         ],
-        image: "/assets/about/aboutImage.png",
+        image: "/assets/hero/heroImage.png",
     },
+
+    education: [
+        {
+            school: "Institute of Engineering and Technology, Lucknow",
+            degree: "B.Tech, Computer Science and Engineering",
+            cgpa: "8.04 / 10",
+            duration: "Oct 2021 — Jun 2025",
+            location: "Lucknow, U.P., India",
+        },
+    ],
 
     experience: [
         {
-            title: "Gen AI Intern",
-            company: "Tap Health",
-            duration: "Jul 2024 - Feb 2025",
-            logo: "/assets/experience/taphealth.png",
-            description:
-                "Architected and engineered an intelligent AI coach and content generation system designed to provide personalized diabetes management and comprehensive caregiver support. Led the end-to-end development of advanced digital diagnostic modules and spearheaded cutting-edge AI research experiments utilizing state-of-the-art large language models. Successfully deployed production-ready, scalable AI solutions, ensuring optimal performance, security, and seamless deployment across multiple platforms.",
+            title: "AI Engineer",
+            company: "Zykrr",
+            duration: "Sep 2025 — Present",
+            location: "Remote · India",
+            logo: "/assets/experience/zykrr.png",
+            summary:
+                "Real-time CX systems — from Kafka pipelines to LLM analytics to voice agents.",
+            bullets: [
+                "Designed and scaled real-time CX data pipelines on Apache Kafka (MSK), transforming 34.56M+ events/day from PostgreSQL → ClickHouse.",
+                "Built LLM-driven CX analytics: text analytics, issue detection, summarization, and automated insight generation over large-scale feedback data.",
+                "Developed a real-time CX chatbot for qualitative + quantitative feedback exploration with dynamic insight generation, visualization, and sentiment trends.",
+                "Engineered an AI-powered survey builder that uses historical data and user context to dynamically generate customized surveys, cutting manual configuration effort.",
+                "Implemented real-time voice + chat survey systems with adaptive conversational flows where survey paths shift based on user responses (conditional logic).",
+                "Designed low-latency STT → LLM → TTS pipelines on LiveKit, optimizing for latency, cost, accuracy, and noise robustness in real-time conversational environments.",
+                "Managed distributed systems on Kubernetes — scaling Kafka consumers, secrets handling, HA, fault isolation, production-grade reliability.",
+                "Built fault-tolerant pipelines with DLQ handling and recovery; debugged production issues across streaming systems, AI services, and databases.",
+            ],
             technologies: [
                 "Python",
-                "NLP",
+                "Apache Kafka",
+                "ClickHouse",
+                "PostgreSQL",
+                "Kubernetes",
+                "AWS MSK",
+                "LiveKit",
                 "LangChain",
-                "RAG",
-                "PyTorch",
-                "Hugging Face",
                 "FastAPI",
-                "Neo4j",
                 "Docker",
-                "Azure Cloud",
             ],
-            type: "past",
+            type: "current" as const,
         },
-    ],
+        {
+            title: "Gen AI Intern",
+            company: "Tap Health",
+            duration: "Jul 2024 — Feb 2025",
+            location: "Remote",
+            logo: "/assets/experience/taphealth.png",
+            summary:
+                "AI-driven healthcare systems for personalized diabetes coaching.",
+            bullets: [
+                "Engineered AI-driven healthcare systems delivering personalized diabetes coaching using LLM-based architectures.",
+                "Built scalable AI pipelines using Python, LangChain, Hugging Face, and Neo4j knowledge graphs.",
+                "Developed multilingual AI systems integrating speech and text models for improved accessibility.",
+                "Enhanced response quality through prompt engineering and contextual modeling.",
+            ],
+            technologies: [
+                "Python",
+                "LangChain",
+                "Hugging Face",
+                "PyTorch",
+                "Neo4j",
+                "FastAPI",
+                "Docker",
+                "Azure",
+            ],
+            type: "past" as const,
+        },
+    ] as Experience[],
 
     skills: [
-        { name: "HTML", icon: "/assets/skills/html.png", category: "Frontend" },
-        { name: "CSS", icon: "/assets/skills/css.png", category: "Frontend" },
-        {
-            name: "React",
-            icon: "/assets/skills/react.png",
-            category: "Frontend",
-        },
-        {
-            name: "Next.js",
-            icon: "/assets/skills/nextjs.png",
-            category: "Frontend",
-        },
-        {
-            name: "Streamlit",
-            icon: "/assets/skills/Streamlit.png",
-            category: "Frontend",
-        },
-        {
-            name: "Node.js",
-            icon: "/assets/skills/node.png",
-            category: "Backend",
-        },
-        {
-            name: "Express.js",
-            icon: "/assets/skills/Express.png",
-            category: "Backend",
-        },
-        {
-            name: "FastAPI",
-            icon: "/assets/skills/fastapi.png",
-            category: "Backend",
-        },
-        {
-            name: "Django",
-            icon: "/assets/skills/Django.png",
-            category: "Backend",
-        },
-        {
-            name: "Python",
-            icon: "/assets/skills/python.png",
-            category: "Programming",
-        },
-        {
-            name: "C++",
-            icon: "/assets/skills/c++.png",
-            category: "Programming",
-        },
-        {
-            name: "JavaScript",
-            icon: "/assets/skills/JavaScript.png",
-            category: "Programming",
-        },
-        {
-            name: "TypeScript",
-            icon: "/assets/skills/TypeScript.png",
-            category: "Programming",
-        },
-        {
-            name: "LangChain",
-            icon: "/assets/skills/langchain.png",
-            category: "AI/ML",
-        },
-        {
-            name: "CrewAI",
-            icon: "/assets/skills/crewai.png",
-            category: "AI/ML",
-        },
-        {
-            name: "LangGraph",
-            icon: "/assets/skills/langgraph.png",
-            category: "AI/ML",
-        },
-        {
-            name: "PyTorch",
-            icon: "/assets/skills/PyTorch.png",
-            category: "AI/ML",
-        },
-        {
-            name: "Hugging Face",
-            icon: "/assets/skills/huggingface.png",
-            category: "AI/ML",
-        },
-        {
-            name: "MongoDB",
-            icon: "/assets/skills/mongodb.png",
-            category: "Database",
-        },
-        { name: "SQL", icon: "/assets/skills/sql.png", category: "Database" },
-        {
-            name: "PostgreSQL",
-            icon: "/assets/skills/PostgresSQL.png",
-            category: "Database",
-        },
-        {
-            name: "Vector Database",
-            icon: "/assets/skills/vectordatabase.png",
-            category: "Database",
-        },
-        { name: "Git", icon: "/assets/skills/git.png", category: "Tools" },
-        {
-            name: "Postman",
-            icon: "/assets/skills/Postman.png",
-            category: "Tools",
-        },
-        {
-            name: "Docker",
-            icon: "/assets/skills/Docker.png",
-            category: "Tools",
-        },
-        {
-            name: "VS Code",
-            icon: "/assets/skills/vscode.png",
-            category: "Tools",
-        },
-        {
-            name: "Copilot",
-            icon: "/assets/skills/copilot.png",
-            category: "Tools",
-        },
-        {
-            name: "Selenium",
-            icon: "/assets/skills/Selenium.png",
-            category: "Tools",
-        },
-        {
-            name: "Azure",
-            icon: "/assets/skills/Azure.png",
-            category: "Tools",
-        },
-        {
-            name: "GCP",
-            icon: "/assets/skills/Google Cloud.png",
-            category: "Tools",
-        },
-        {
-            name: "Confluence",
-            icon: "/assets/skills/Confluence.png",
-            category: "Tools",
-        },
-    ],
+        // Languages
+        { name: "Python", icon: "/assets/skills/python.png", category: "Languages" },
+        { name: "C/C++", icon: "/assets/skills/c++.png", category: "Languages" },
+        { name: "JavaScript", icon: "/assets/skills/JavaScript.png", category: "Languages" },
+        { name: "TypeScript", icon: "/assets/skills/TypeScript.png", category: "Languages" },
+        { name: "SQL", icon: "/assets/skills/sql.png", category: "Languages" },
+
+        // AI/ML & GenAI
+        { name: "LLMs", category: "AI/ML & GenAI" },
+        { name: "RAG Pipelines", category: "AI/ML & GenAI" },
+        { name: "Prompt Engineering", category: "AI/ML & GenAI" },
+        { name: "LangChain", icon: "/assets/skills/langchain.png", category: "AI/ML & GenAI" },
+        { name: "CrewAI", icon: "/assets/skills/crewai.png", category: "AI/ML & GenAI" },
+        { name: "LangGraph", icon: "/assets/skills/langgraph.png", category: "AI/ML & GenAI" },
+        { name: "Hugging Face", icon: "/assets/skills/huggingface.png", category: "AI/ML & GenAI" },
+        { name: "PyTorch", icon: "/assets/skills/PyTorch.png", category: "AI/ML & GenAI" },
+        { name: "Conversational AI", category: "AI/ML & GenAI" },
+        { name: "Text Analytics", category: "AI/ML & GenAI" },
+
+        // Backend & Systems
+        { name: "FastAPI", icon: "/assets/skills/fastapi.png", category: "Backend & Systems" },
+        { name: "Node.js", icon: "/assets/skills/node.png", category: "Backend & Systems" },
+        { name: "Distributed Systems", category: "Backend & Systems" },
+        { name: "Microservices", category: "Backend & Systems" },
+        { name: "REST APIs", category: "Backend & Systems" },
+        { name: "Async Processing", category: "Backend & Systems" },
+        { name: "Apache Kafka", category: "Backend & Systems" },
+
+        // DevOps & Cloud
+        { name: "Docker", icon: "/assets/skills/Docker.png", category: "DevOps & Cloud" },
+        { name: "Kubernetes", category: "DevOps & Cloud" },
+        { name: "AWS MSK", category: "DevOps & Cloud" },
+        { name: "AWS IAM", category: "DevOps & Cloud" },
+        { name: "Azure", icon: "/assets/skills/Azure.png", category: "DevOps & Cloud" },
+        { name: "GCP", icon: "/assets/skills/Google Cloud.png", category: "DevOps & Cloud" },
+        { name: "LiveKit", category: "DevOps & Cloud" },
+        { name: "CI/CD", category: "DevOps & Cloud" },
+
+        // Databases
+        { name: "ClickHouse", category: "Databases" },
+        { name: "PostgreSQL", icon: "/assets/skills/PostgresSQL.png", category: "Databases" },
+        { name: "MongoDB", icon: "/assets/skills/mongodb.png", category: "Databases" },
+        { name: "ChromaDB", category: "Databases" },
+        { name: "Neo4j", category: "Databases" },
+        { name: "Vector DBs", icon: "/assets/skills/vectordatabase.png", category: "Databases" },
+
+        // Core Strengths
+        { name: "Production Debugging", category: "Core Strengths" },
+        { name: "Performance Optimization", category: "Core Strengths" },
+        { name: "Real-time Processing", category: "Core Strengths" },
+        { name: "Fault-tolerant Systems", category: "Core Strengths" },
+        { name: "Scalable System Design", category: "Core Strengths" },
+    ] as Skill[],
 
     achievements: {
         competitive: [
             {
                 platform: "Codeforces",
-                title: "Codeforces Specialist",
-                rating: "Highest Rating - 1558",
+                handle: "Shailesh_21",
+                title: "Specialist",
+                rating: 1558,
                 highlights: [
-                    "Global Rank - 892 in Codeforces Round 935 (Div. 3), out of 7,200+ participants",
-                    "Global Rank - 1137 in Codeforces Round 929 (Div. 3), out of 20,000+ participants",
+                    "Global Rank 892 — Round 935 (Div. 3) · 7,200+ participants",
+                    "Global Rank 1137 — Round 929 (Div. 3) · 20,000+ participants",
                 ],
                 link: "https://codeforces.com/profile/Shailesh_21",
                 icon: "/assets/history/codeforces.png",
             },
             {
                 platform: "LeetCode",
-                title: "LeetCode Knight",
-                rating: "Highest Rating - 1853",
+                handle: "shailesh_21",
+                title: "Knight",
+                rating: 1853,
                 highlights: [
-                    "Ranked Top 5.85% in Global Coders, out of 80,000+ Indian participants",
-                    "Global Rank - 1336 in LeetCode Biweekly Contest 126, out of 21,000+ participants",
+                    "Top 5.85% in Global Coders, out of 80,000+ Indian participants",
+                    "Global Rank 1336 — Biweekly Contest 126 · 21,000+ participants",
                 ],
                 link: "https://leetcode.com/u/shailesh_21/",
                 icon: "/assets/history/leetcode.png",
             },
             {
                 platform: "CodeChef",
-                title: "CodeChef 4 STAR",
-                rating: "Highest Rating - 1844",
+                handle: "shailesh_s21",
+                title: "4 Star",
+                rating: 1844,
                 highlights: [
-                    "All India Rank - 3655 (Global Rank 4686), out of 200,000+ active Indian users",
-                    "Global Rank - 187 in CodeChef Starters 116 Div 2",
+                    "All India Rank 3655 (Global 4686), out of 200,000+ active users",
+                    "Global Rank 187 — CodeChef Starters 116 Div 2",
                 ],
                 link: "https://www.codechef.com/users/shailesh_s21",
                 icon: "/assets/history/codechef.png",
             },
         ],
         certifications: [
-            // Space for certificates - to be added with images
             {
                 title: "Python for Machine Learning",
                 issuer: "Udemy",
@@ -271,14 +281,33 @@ export const portfolioData = {
 
     projects: [
         {
-            title: "WealthWise",
+            title: "StratAGI",
+            tagline: "Autonomous Multi-Agent Business Strategy Platform",
             description:
-                "Developed a full-stack AI finance platform called 'WealthWise' using Next.js, React, Node.js, and Prisma. An AI-powered financial management platform that helps you track, analyze, and optimize your spending with real-time insights.",
+                "A multi-agent AI system using CrewAI for autonomous research and strategy generation workflows. Reduced redundant API calls by 30% through optimized orchestration and shared memory design. Backed by FastAPI services and shipped in containers.",
+            technologies: [
+                "Python",
+                "CrewAI",
+                "LangChain",
+                "FastAPI",
+                "Docker",
+                "Streamlit",
+            ],
+            image: "/assets/projects/stratagi.png",
+            demo: "https://github.com/shailesh-singh-ss/StratAGI",
+            source: "https://github.com/shailesh-singh-ss/StratAGI",
+            featured: true,
+            metric: "30% fewer API calls via shared memory orchestration",
+        },
+        {
+            title: "WealthWise",
+            tagline: "Full-Stack AI Finance Platform",
+            description:
+                "A full-stack AI finance platform for automated expense tracking, budgeting, and financial insights. Implements LLM-based receipt parsing to extract structured data from unstructured inputs, with real-time recurring transactions, alerts, and reporting workflows.",
             technologies: [
                 "Next.js",
                 "Tailwind CSS",
                 "Prisma",
-                "Shadcn UI",
                 "Clerk",
                 "Gemini AI",
                 "Vercel",
@@ -287,57 +316,25 @@ export const portfolioData = {
             demo: "https://wealthwise-six.vercel.app/",
             source: "https://github.com/shailesh-singh-ss/WealthWise",
             featured: true,
+            metric: "Receipt → structured JSON via LLM parsing",
         },
         {
-            title: "StratAGI",
+            title: "Medical Chatbot",
+            tagline: "RAG over GALE Encyclopedia of Medicine",
             description:
-                "Created an autonomous multi-agent business strategy platform named 'StratAGI' using Python, LangChain, and various AI models. The platform assists businesses in formulating and executing data-driven strategies by leveraging generative AI.",
-            technologies: [
-                "Python",
-                "CrewAI",
-                "LangChain",
-                "Groq",
-                "Gemini",
-                "FastAPI",
-                "Streamlit",
-                "Docker",
-            ],
-            image: "/assets/projects/stratagi.png",
-            demo: "https://github.com/shailesh-singh-ss/StratAGI",
-            source: "https://github.com/shailesh-singh-ss/StratAGI",
-            featured: true,
-        },
-        {
-            title: "Blog Website",
-            description:
-                "Engineered a fully functional blog platform utilizing React, Appwrite, and TailwindCSS. This project showcases my ability to develop both frontend and backend components, emphasizing secure user authentication and efficient data management.",
-            technologies: [
-                "React",
-                "Appwrite",
-                "Node",
-                "Tailwind",
-                "Redux",
-                "Git",
-                "React Router",
-            ],
-            image: "/assets/projects/blog_project.png",
-            demo: "https://blog-nu-lake-62.vercel.app/",
-            source: "https://github.com/shailesh-singh-ss/Blog",
-            featured: true,
+                "A medical assistant built with LangChain, ChromaDB, LLaMA2, and Hugging Face. Embeds the GALE encyclopedia, retrieves relevant context, and generates grounded medical suggestions.",
+            technologies: ["Python", "LangChain", "ChromaDB", "LLaMA", "Hugging Face"],
+            image: "/assets/projects/medical_chatbot_project.png",
+            demo: "https://github.com/shailesh-singh-ss/Medical-Chat-Bot",
+            source: "https://github.com/shailesh-singh-ss/Medical-Chat-Bot",
+            featured: false,
         },
         {
             title: "Leadgen Message",
+            tagline: "B2B Lead-Gen with AI Outreach",
             description:
-                "A comprehensive B2B lead generation system that automatically discovers potential customers, analyzes their websites, and generates personalized outreach messages using AI.",
-            technologies: [
-                "Python",
-                "FastAPI",
-                "Uvicorn",
-                "Requests",
-                "Pydantic",
-                "BeautifulSoup4",
-                "Google Generative AI",
-            ],
+                "Discovers potential customers, analyzes their websites, and generates personalized outreach copy using Google Generative AI behind a FastAPI service.",
+            technologies: ["Python", "FastAPI", "BeautifulSoup4", "Google Generative AI"],
             image: "/assets/projects/leadgen.png",
             demo: "https://github.com/shailesh-singh-ss/Leadgen_Message",
             source: "https://github.com/shailesh-singh-ss/Leadgen_Message",
@@ -345,156 +342,109 @@ export const portfolioData = {
         },
         {
             title: "MCQ Generator",
+            tagline: "PDF/TXT → Editable MCQs",
             description:
-                "Developed an AI-powered MCQ generator using LangChain, Python, and the Cohere LLM. The system allows users to upload PDF or TXT files, specify topics, and generate editable MCQs. Features include topic selection, difficulty settings, and a review mechanism.",
-            technologies: [
-                "Python",
-                "LangChain",
-                "Streamlit",
-                "Cohere LLM",
-                "Git",
-                "Generative AI",
-            ],
+                "Upload a document, choose a topic and difficulty, and generate editable multiple-choice questions via LangChain and the Cohere LLM.",
+            technologies: ["Python", "LangChain", "Streamlit", "Cohere"],
             image: "/assets/projects/mcq_generator_project.png",
             demo: "https://mcq-generator-n5eewjaorzysa3gvqkjgfh.streamlit.app/",
-            source: "https://github.com/shailesh-singh-ss/MCQ-Generator?tab=readme-ov-file#mcq-generator-with-ai",
+            source: "https://github.com/shailesh-singh-ss/MCQ-Generator",
             featured: false,
         },
         {
-            title: "Medical Chatbot",
+            title: "Blog Platform",
+            tagline: "Full-stack Blog with Appwrite",
             description:
-                "Developed a medical chatbot leveraging generative AI and the GALE Encyclopedia of Medicine 2. Utilized Python, LangChain, ChromaDB, LLaMA2, and Hugging Face to provide accurate medical suggestions. Features include embedding medical content, storing embeddings in ChromaDB, and generating responses using LLaMA2.",
-            technologies: [
-                "Python",
-                "LangChain",
-                "ChromaDB",
-                "LLaMA",
-                "Hugging Face",
-                "Git",
-            ],
-            image: "/assets/projects/medical_chatbot_project.png",
-            demo: "https://github.com/shailesh-singh-ss/Medical-Chat-Bot",
-            source: "https://github.com/shailesh-singh-ss/Medical-Chat-Bot",
+                "A blog platform with secure auth and efficient data management — built to practice end-to-end React + Appwrite + Tailwind.",
+            technologies: ["React", "Appwrite", "Tailwind", "Redux"],
+            image: "/assets/projects/blog_project.png",
+            demo: "https://blog-nu-lake-62.vercel.app/",
+            source: "https://github.com/shailesh-singh-ss/Blog",
             featured: false,
         },
         {
-            title: "Youtube Backend",
+            title: "YouTube Backend",
+            tagline: "Video-platform API in Node",
             description:
-                "Developed a comprehensive backend for a video hosting website similar to YouTube using Node.js, Express.js, MongoDB, and Mongoose. Features include user authentication, video upload, like/dislike, comments, and subscriptions. Implemented JWT, bcrypt, access tokens, and refresh tokens following best practices.",
-            technologies: [
-                "Express",
-                "Node",
-                "MongoDB",
-                "JWT",
-                "bcrypt",
-                "Postman",
-            ],
+                "Backend for a video-hosting site: auth (JWT, refresh tokens), uploads, likes, comments, subscriptions — Express + MongoDB + Mongoose.",
+            technologies: ["Node.js", "Express", "MongoDB", "JWT"],
             image: "/assets/projects/project.png",
             demo: "https://github.com/shailesh-singh-ss/Youtube-Backend-Learning",
             source: "https://github.com/shailesh-singh-ss/Youtube-Backend-Learning",
             featured: false,
         },
         {
-            title: "Wordle Game",
+            title: "Wordle",
+            tagline: "Daily Word Game Clone",
             description:
-                "Developed a Wordle game clone. The game offers daily word challenges with interactive keyboard input and color-coded feedback to indicate correct and incorrect guesses. Focused on delivering a smooth and engaging user experience, the game features responsive design, ensuring compatibility across both mobile and desktop devices.",
-            technologies: ["JavaScript", "HTML", "CSS", "Git"],
+                "A responsive Wordle clone with daily challenges, color-coded feedback, and a polished mobile/desktop experience.",
+            technologies: ["JavaScript", "HTML", "CSS"],
             image: "/assets/projects/wordle_project.png",
             demo: "https://wordle-pink-nu.vercel.app/",
             source: "https://github.com/shailesh-singh-ss/Wordle",
             featured: false,
         },
-        {
-            title: "Tic-Tac-Toe Game",
-            description:
-                "Developed a classic Tic-Tac-Toe game. The game features a two-player mode with an intuitive user interface, allowing players to enjoy seamless gameplay on desktop and mobile. Implemented comprehensive game logic to handle win detection, draw scenarios, and invalid moves, ensuring a smooth user experience.",
-            technologies: ["JavaScript", "HTML", "CSS", "Git"],
-            image: "/assets/projects/tic-tac-toe_project.png",
-            demo: "https://tic-tac-toe-ecru-mu.vercel.app/",
-            source: "https://github.com/shailesh-singh-ss/Tic-Tac-Toe",
-            featured: false,
-        },
-    ],
+    ] as Project[],
 
     chatbot: {
         greeting:
-            "Hi! I'm Shailesh's AI assistant. Ask me anything about his skills, experience, or projects!",
-        context: `You are AI assistant, Shailesh Singh's professional assistant. Your role is to provide information regarding his professional background, skills, work experience, projects, and contact options for professional opportunities.
-    Only answer questions related to Shailesh Singh. Do not provide information or opinions on unrelated topics, personal matters, or general inquiries not pertaining to Shailesh. Ensure that your responses are concise (within 100 words) and focus on the following key areas:
+            "ai:> hey — I'm Shailesh's portfolio assistant. ask me about his work at Zykrr, his stack, or his projects. ▌",
+        context: `You are the assistant on Shailesh Singh's personal portfolio site. Answer concisely (under ~120 words), in clean GitHub-flavored markdown. Stay strictly on topic — Shailesh's professional background, skills, work, projects, education, and contact info. Politely redirect anything else.
 
-    Skills and Expertise:
-    
-    Shailesh’s core technical skills: Full-stack development (Next.js, React, Node.js, MongoDB, PostgresSQL), Generative AI (Python, LangChain, RAG, LLM, Agentic AI, Hugging Face), and competitive programming (C++, Python, DSA).
-    Tools and technologies: Next.js, ReactJS, NodeJS, Python, C++, JavaScript, MongoDB, LangChain, Crewai, SQL, Express, Git, Azure, Streamlit, PyTorch.
-    Competitive programming achievements: Specialist on Codeforces, 4-star on CodeChef, and Leetcode Knight.
+# Profile
+- Name: Shailesh Singh
+- Role: AI Engineer at Zykrr (Sep 2025 — Present)
+- Based in: Gurgaon, Haryana, India
+- Email: ss.forcoding@gmail.com  ·  Phone: +91-6201237193
 
-    Education:
-    
-    Institute of Engineering and Technology, Lucknow Lucknow, U P, India
-    B. Tech. - Computer Science and Engineering | CGPA (Current): 8.04/10 June 2021 - June 2025
+# Education
+- B.Tech, Computer Science and Engineering — Institute of Engineering and Technology, Lucknow (Oct 2021 — Jun 2025), CGPA 8.04/10.
 
-    Work Experience:
+# Current role — AI Engineer @ Zykrr
+- Designs and scales real-time CX data pipelines on Apache Kafka (AWS MSK), moving 34.56M+ events/day from PostgreSQL to ClickHouse.
+- Builds LLM-driven CX analytics: text analytics, issue detection, summarization, automated insight generation.
+- Developed a real-time CX chatbot for qualitative + quantitative feedback analysis with dynamic insight generation and visualization.
+- Engineered an AI-powered survey builder that customizes surveys from historical data + user context.
+- Implemented real-time voice + chat survey systems with adaptive conversational flows (conditional logic).
+- Designed low-latency STT → LLM → TTS pipelines on LiveKit (latency, cost, accuracy, noise robustness).
+- Manages distributed systems on Kubernetes (scaling Kafka consumers, secrets, HA).
+- Built fault-tolerant pipelines with DLQ + recovery; debugs production issues across streaming, AI services, and databases.
 
-    Shailesh has a experience as a Gen AI Intern at Tap Health, where he develops AI-based digital diagnostic modules and diabetes management tools like AI coach for diabetes patient, personalized education content generation, feedback generation and other diabetes management tools for AI-driven healthcare. His experience includes building scalable AI solutions using Python, large language models, transformer models, LangChain, Hugging Face, and Azure Cloud.
+# Prior — Gen AI Intern @ Tap Health (Jul 2024 — Feb 2025)
+- Personalized diabetes coaching using LLM architectures.
+- AI pipelines with Python, LangChain, Hugging Face, Neo4j knowledge graphs.
+- Multilingual systems integrating speech + text models.
+- Prompt engineering and contextual modeling.
 
-    Projects:
+# Skills
+- **Languages**: Python, C/C++, JavaScript, TypeScript, SQL
+- **AI/ML & GenAI**: LLMs, RAG pipelines, Prompt Engineering, LangChain, Hugging Face, PyTorch, Conversational AI, Text Analytics, Classification & Summarization
+- **Backend & Systems**: Distributed Systems, Microservices, REST APIs, FastAPI, Scalable System Design, Async Processing, Apache Kafka
+- **DevOps & Cloud**: Docker, Kubernetes, AWS (MSK, IAM), Azure, GCP, LiveKit, CI/CD
+- **Databases**: ClickHouse, PostgreSQL, MongoDB, ChromaDB, Neo4j, Vector DBs
+- **Core Strengths**: Production Debugging, Performance Optimization, Real-time Processing, Fault-tolerant Systems
 
-    Key projects include:
-    - Full Stack AI Finance Platform – *WealthWise* (Next.js, Tailwind CSS, Prisma, Shadcn UI, Clerk, Gemini AI, Vercel)
-    - Autonomous Multi-Agent Business Strategy Platform - *StratAGI* (Python, CrewAI, LangChain, Groq, Gemini, FastAPI, Streamlit, Docker)
-    - Generative AI for Healthcare - *Medical Chatbot* (Python, LangChain, ChromaDB, LLaMA3, Hugging Face, Flask)
+# Featured Projects
+- **StratAGI** — autonomous multi-agent business strategy platform on CrewAI; 30% fewer redundant API calls via shared memory orchestration. Stack: Python, CrewAI, LangChain, FastAPI, Docker. [GitHub](https://github.com/shailesh-singh-ss/StratAGI)
+- **WealthWise** — full-stack AI finance platform with LLM receipt parsing. Stack: Next.js, Tailwind, Prisma, Clerk, Gemini AI, Vercel. [Live](https://wealthwise-six.vercel.app/)  ·  [GitHub](https://github.com/shailesh-singh-ss/WealthWise)
 
+# Achievements
+- Codeforces Specialist (highest 1558)
+- LeetCode Knight (highest 1853)
+- CodeChef 4-Star (highest 1844)
 
+# Links
+- [Resume](https://drive.google.com/file/d/19iYfN0EjPmNk-6KZwG6nkBUv1ra3CSoW/view)
+- [GitHub](https://github.com/shailesh-singh-ss)
+- [LinkedIn](https://www.linkedin.com/in/shailesh-singh-544bb3229/)
+- [Portfolio](https://www.shaileshsingh.tech)
 
-    Achievements in Competitive Programming:
-
-    - Codeforces Specialist (Highest rating: 1558)
-    - CodeChef 4-star (Highest rating: 1844)
-    - Leetcode Knight (Highest rating: 1853)
-    - Notable rankings in coding competitions as listed in the resume.
-
-    Skills:
-    • Languages: C/C++, Python, JavaScript, SQL, HTML, CSS, Cypher query
-    • Tools: MongoDB, Express.js, ReactJS, Node.js, VS Code, Git, Linux, Azure, Streamlit, Langchain
-    • Technical Skills: Data Structures & Algorithms, Code Optimization, Debugging, Generative AI
-    • Soft Skills: Leadership, Teamwork, Public Speaking, Writing, Fluency in English
-
-    Contact Information:
-
-    Provide contact options via:
-    - Email: ss.forcoding@gmail.com
-    - LinkedIn: https://www.linkedin.com/in/shailesh-singh-544bb3229/
-    Ensure links are user-friendly.
-
-    Response Guidelines:
-
-    - Stick to professional information about Shailesh’s skills, work, projects, and contact details.
-    - Avoid answering personal or irrelevant questions.
-    - Keep responses under 100 words and use clear, accessible links as required.
-
-    
-
-    How can I contact Shailesh for opportunities?
-    Reach out via email at ss.forcoding@gmail.com or connect on LinkedIn.
-
-    Links:
-    Here is the formatted list in markdown:
-    1. [Google Drive CV](https://drive.google.com/file/d/19iYfN0EjPmNk-6KZwG6nkBUv1ra3CSoW/view)
-    2. [GitHub](https://github.com/shailesh-singh-ss)
-    3. [LinkedIn](https://www.linkedin.com/in/shailesh-singh-544bb3229/)
-    4. [CodeChef](https://www.codechef.com/users/shailesh_s21)
-    5. [Portfolio](https://www.shaileshsingh.tech)
-    6. [Codeforces](https://codeforces.com/profile/Shailesh_21)
-
-    Remember:
-    - Keep responses professional and concise.
-    - Only answer questions related to Shailesh’s professional background.
-    - Only answer questions related to Shailesh Singh. Do not provide information or opinions on unrelated topics, personal matters, or general inquiries not pertaining to Shailesh.
-    - Never answer questions that is not related to Shailesh Singh.
-    - Always provide links with anchor tag as given in the prompt.
-
-    Output Format: Markdown
-    - Change the text message into good looking markdown
+# Style
+- Use markdown headings, bullets, and inline links.
+- Prefer concise answers; expand only when asked.
+- For "how do I contact him?" → email, LinkedIn, or the contact form on this page.
+- Refuse off-topic questions politely.
+- Open with a lowercase 'ai:>' prefix line only if the user explicitly greets — otherwise answer directly.
 `,
     },
 };

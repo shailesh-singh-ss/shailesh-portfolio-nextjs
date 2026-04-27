@@ -1,241 +1,121 @@
 "use client";
 
+import { motion } from "framer-motion";
+import { ExternalLink, Award } from "lucide-react";
 import { portfolioData } from "@/data/portfolio";
-import { scrollToSection } from "@/lib/utils";
-import { Award, ExternalLink, Star, Trophy } from "lucide-react";
-import Image from "next/image";
-import { useEffect, useRef } from "react";
 
 export default function Achievements() {
-    const sectionRef = useRef<HTMLDivElement>(null);
+  const competitive = portfolioData.achievements.competitive;
+  const certs = portfolioData.achievements.certifications;
 
-    useEffect(() => {
-        const observer = new IntersectionObserver(
-            (entries) => {
-                entries.forEach((entry) => {
-                    if (entry.isIntersecting) {
-                        entry.target.classList.add("animate-fade-in");
-                    }
-                });
-            },
-            { threshold: 0.1 }
-        );
-
-        if (sectionRef.current) {
-            observer.observe(sectionRef.current);
-        }
-
-        return () => observer.disconnect();
-    }, []);
-
-    return (
-        <div ref={sectionRef} className="section-padding bg-gray-900">
-            <div className="container-custom">
-                <div className="text-center mb-16">
-                    <h2 className="text-4xl md:text-5xl font-bold text-white mb-4">
-                        Achievements &{" "}
-                        <span className="text-gradient">Recognition</span>
-                    </h2>
-                    <p className="text-xl text-gray-400 max-w-3xl mx-auto">
-                        Competitive programming accomplishments and professional
-                        certifications that showcase my dedication to excellence
-                    </p>
-                </div>
-
-                {/* Competitive Programming Section */}
-                <div className="mb-20">
-                    <div className="flex items-center justify-center gap-3 mb-12">
-                        <Trophy className="text-primary-400" size={32} />
-                        <h3 className="text-3xl font-bold text-white">
-                            Competitive Programming
-                        </h3>
-                    </div>
-
-                    <div className="grid md:grid-cols-3 gap-8">
-                        {portfolioData.achievements.competitive.map(
-                            (achievement) => (
-                                <div
-                                    key={achievement.platform}
-                                    className="glass-card p-8 hover:bg-white/10 transition-all duration-300 transform hover:scale-105 group"
-                                >
-                                    {/* Platform Header */}
-                                    <div className="flex items-center gap-4 mb-6">
-                                        <div className="w-16 h-16 bg-gradient-to-br from-gray-700 to-gray-800 rounded-xl flex items-center justify-center border border-gray-600 group-hover:border-primary-500 transition-all duration-300">
-                                            <Image
-                                                src={achievement.icon}
-                                                alt={achievement.platform}
-                                                width={32}
-                                                height={32}
-                                            />
-                                        </div>
-                                        <div>
-                                            <h4 className="text-xl font-bold text-white">
-                                                {achievement.platform}
-                                            </h4>
-                                            <p className="text-primary-400 font-semibold">
-                                                {achievement.title}
-                                            </p>
-                                        </div>
-                                    </div>
-
-                                    {/* Rating */}
-                                    <div className="mb-6">
-                                        <div className="flex items-center gap-2 mb-2">
-                                            <Star
-                                                className="text-yellow-400"
-                                                size={20}
-                                            />
-                                            <span className="text-lg font-semibold text-white">
-                                                {achievement.rating}
-                                            </span>
-                                        </div>
-                                    </div>
-
-                                    {/* Highlights */}
-                                    <div className="space-y-3 mb-6">
-                                        {achievement.highlights.map(
-                                            (highlight, highlightIndex) => (
-                                                <div
-                                                    key={highlightIndex}
-                                                    className="flex items-start gap-2"
-                                                >
-                                                    <div className="w-2 h-2 bg-primary-500 rounded-full mt-2 flex-shrink-0"></div>
-                                                    <p className="text-gray-300 text-sm leading-relaxed">
-                                                        {highlight}
-                                                    </p>
-                                                </div>
-                                            )
-                                        )}
-                                    </div>
-
-                                    {/* Link */}
-                                    <a
-                                        href={achievement.link}
-                                        target="_blank"
-                                        rel="noopener noreferrer"
-                                        className="inline-flex items-center gap-2 text-primary-400 hover:text-primary-300 transition-colors duration-300 font-semibold"
-                                    >
-                                        View Profile
-                                        <ExternalLink size={16} />
-                                    </a>
-                                </div>
-                            )
-                        )}
-                    </div>
-                </div>
-
-                {/* Certifications Section */}
-                <div className="mb-20">
-                    <div className="flex items-center justify-center gap-3 mb-12">
-                        <Award className="text-accent-400" size={32} />
-                        <h3 className="text-3xl font-bold text-white">
-                            Certifications
-                        </h3>
-                    </div>
-
-                    <div className="grid md:grid-cols-2 lg:grid-cols-3 gap-8">
-                        {/* Placeholder for certificates */}
-                        {portfolioData.achievements.certifications.map(
-                            (certification, index) => (
-                                <div
-                                    key={index}
-                                    className="glass-card p-8 text-center hover:bg-white/10 transition-all duration-300 transform hover:scale-105"
-                                >
-                                    <div className="w-24 h-24 bg-gradient-to-br from-gray-700 to-gray-800 rounded-xl mx-auto mb-6 flex items-center justify-center border border-gray-600 border-dashed">
-                                        <Award
-                                            className="text-gray-400"
-                                            size={32}
-                                        />
-                                    </div>
-                                    <h4 className="text-lg font-semibold text-white mb-2">
-                                        {certification.title}
-                                    </h4>
-                                    <p className="text-gray-400 text-sm">
-                                        Issuer: {certification.issuer}
-                                    </p>
-                                    <p className="text-gray-400 text-sm">
-                                        Date: {certification.date}
-                                    </p>
-                                    <a
-                                        href={certification.certificate}
-                                        target="_blank"
-                                        rel="noopener noreferrer"
-                                        className="inline-flex items-center gap-2 text-primary-400 hover:text-primary-300 transition-colors duration-300 font-semibold"
-                                    >
-                                        View Certificate
-                                        <ExternalLink size={16} />
-                                    </a>
-                                </div>
-                            )
-                        )}
-                    </div>
-                </div>
-
-                {/* Statistics */}
-                <div className="grid grid-cols-2 md:grid-cols-4 gap-8">
-                    <div className="glass-card p-6 text-center">
-                        <div className="text-3xl font-bold text-gradient mb-2">
-                            1800+
-                        </div>
-                        <p className="text-gray-400">Average Rating</p>
-                    </div>
-
-                    <div className="glass-card p-6 text-center">
-                        <div className="text-3xl font-bold text-gradient mb-2">
-                            1000+
-                        </div>
-                        <p className="text-gray-400">Problems Solved</p>
-                    </div>
-
-                    <div className="glass-card p-6 text-center">
-                        <div className="text-3xl font-bold text-gradient mb-2">
-                            3
-                        </div>
-                        <p className="text-gray-400">Platforms</p>
-                    </div>
-
-                    <div className="glass-card p-6 text-center">
-                        <div className="text-3xl font-bold text-gradient mb-2">
-                            Top 10%
-                        </div>
-                        <p className="text-gray-400">Global Ranking</p>
-                    </div>
-                </div>
-
-                {/* Call to Action */}
-                <div className="mt-20 text-center">
-                    <div className="glass-card p-8 md:p-12">
-                        <h3 className="text-2xl md:text-3xl font-bold text-white mb-6">
-                            Ready to Tackle New Challenges
-                        </h3>
-                        <p className="text-lg text-gray-300 mb-8 max-w-3xl mx-auto">
-                            My competitive programming journey has sharpened my
-                            problem-solving skills and algorithmic thinking. I&apos;m
-                            always excited to apply these skills to real-world
-                            challenges and innovative projects.
-                        </p>
-                        <div className="flex flex-col sm:flex-row gap-4 justify-center">
-                            <a
-                                href="https://github.com/shailesh-singh-ss"
-                                target="_blank"
-                                rel="noopener noreferrer"
-                                className="glow-button bg-gradient-to-r from-primary-500 to-accent-500 text-white px-8 py-3 rounded-lg font-semibold transition-all duration-300 hover:scale-105"
-                            >
-                                View My Code
-                            </a>
-                            <button
-                                onClick={() => {
-                                    console.log("See Projects button clicked");
-                                    scrollToSection("projects");
-                                }}
-                                className="border border-primary-500 text-primary-400 px-8 py-3 rounded-lg font-semibold transition-all duration-300 hover:bg-primary-500 hover:text-white hover:scale-105"
-                            >
-                                See Projects
-                            </button>
-                        </div>
-                    </div>
-                </div>
-            </div>
+  return (
+    <div className="section-padding">
+      <div className="container-custom">
+        <div className="mb-10">
+          <div className="font-mono text-xs text-ink-500 mb-2">
+            <span className="text-lime-400">$</span> top --sort=rating
+          </div>
+          <h2 className="font-mono text-3xl sm:text-4xl text-bone-50 font-bold tracking-tight">
+            ~/achievements
+          </h2>
         </div>
-    );
+
+        <div className="bg-ink-900 border border-ink-700 rounded-md overflow-hidden">
+          <div className="px-4 py-3 border-b border-ink-700 bg-ink-800/50">
+            <div className="grid grid-cols-[40px_1fr_1fr_auto] sm:grid-cols-[60px_1.4fr_1fr_1fr_auto] gap-3 font-mono text-[11px] text-ink-500 uppercase tracking-wider">
+              <span>rank</span>
+              <span>platform / handle</span>
+              <span className="hidden sm:block">title</span>
+              <span>rating</span>
+              <span className="text-right">link</span>
+            </div>
+          </div>
+
+          <div>
+            {competitive.map((c, i) => (
+              <motion.a
+                key={c.platform}
+                href={c.link}
+                target="_blank"
+                rel="noopener noreferrer"
+                initial={{ opacity: 0, y: 4 }}
+                whileInView={{ opacity: 1, y: 0 }}
+                viewport={{ once: true }}
+                transition={{ delay: i * 0.06 }}
+                className="block px-4 py-4 border-t border-ink-700 first:border-t-0 hover:bg-lime-400/[0.03] transition-colors group"
+              >
+                <div className="grid grid-cols-[40px_1fr_1fr_auto] sm:grid-cols-[60px_1.4fr_1fr_1fr_auto] gap-3 items-center font-mono text-sm">
+                  <span className="text-lime-400 font-bold">
+                    #{(i + 1).toString().padStart(2, "0")}
+                  </span>
+                  <div>
+                    <div className="text-bone-100">{c.platform}</div>
+                    <div className="text-xs text-bone-500">@{c.handle}</div>
+                  </div>
+                  <span className="hidden sm:block text-bone-300">
+                    {c.title}
+                  </span>
+                  <span className="text-lime-400 font-bold text-base sm:text-lg">
+                    {c.rating}
+                  </span>
+                  <span className="text-right text-bone-400 group-hover:text-lime-400 transition-colors">
+                    <ExternalLink size={14} className="inline" />
+                  </span>
+                </div>
+                <div className="mt-3 sm:pl-[60px] grid sm:grid-cols-2 gap-1.5">
+                  {c.highlights.map((h, j) => (
+                    <div
+                      key={j}
+                      className="font-mono text-xs text-bone-400 leading-relaxed flex items-start gap-2"
+                    >
+                      <span className="text-lime-400/60">─</span>
+                      <span>{h}</span>
+                    </div>
+                  ))}
+                </div>
+              </motion.a>
+            ))}
+          </div>
+        </div>
+
+        <div className="mt-10">
+          <div className="font-mono text-xs text-ink-500 mb-3">
+            <span className="text-lime-400">$</span> ls ~/certs
+          </div>
+          <div className="grid sm:grid-cols-2 lg:grid-cols-3 gap-3">
+            {certs.map((c, i) => (
+              <motion.a
+                key={c.title}
+                href={c.certificate}
+                target="_blank"
+                rel="noopener noreferrer"
+                initial={{ opacity: 0, y: 6 }}
+                whileInView={{ opacity: 1, y: 0 }}
+                viewport={{ once: true }}
+                transition={{ delay: i * 0.05 }}
+                className="bg-ink-900 border border-ink-700 hover:border-lime-400/40 rounded-md p-4 transition-colors group"
+              >
+                <div className="flex items-start gap-3">
+                  <div className="w-9 h-9 rounded-md bg-ink-800 border border-ink-700 flex items-center justify-center text-lime-400 flex-shrink-0">
+                    <Award size={16} />
+                  </div>
+                  <div className="min-w-0 flex-1">
+                    <div className="font-mono text-sm text-bone-100 truncate">
+                      {c.title}
+                    </div>
+                    <div className="font-mono text-xs text-bone-500">
+                      {c.issuer} · {c.date}
+                    </div>
+                    <div className="font-mono text-xs text-lime-400 mt-2 inline-flex items-center gap-1 opacity-0 group-hover:opacity-100 transition-opacity">
+                      view <ExternalLink size={11} />
+                    </div>
+                  </div>
+                </div>
+              </motion.a>
+            ))}
+          </div>
+        </div>
+      </div>
+    </div>
+  );
 }

@@ -1,43 +1,37 @@
-'use client'
+"use client";
 
-import { useState, useEffect } from 'react'
-import { ChevronUp } from 'lucide-react'
+import { useState, useEffect } from "react";
+import { ArrowUp } from "lucide-react";
 
 export default function ScrollToTop() {
-  const [isVisible, setIsVisible] = useState(false)
+  const [isVisible, setIsVisible] = useState(false);
 
   useEffect(() => {
     const toggleVisibility = () => {
-      if (window.pageYOffset > 300) {
-        setIsVisible(true)
-      } else {
-        setIsVisible(false)
-      }
-    }
+      setIsVisible(window.pageYOffset > 400);
+    };
 
-    window.addEventListener('scroll', toggleVisibility)
-
-    return () => {
-      window.removeEventListener('scroll', toggleVisibility)
-    }
-  }, [])
+    window.addEventListener("scroll", toggleVisibility, { passive: true });
+    return () => window.removeEventListener("scroll", toggleVisibility);
+  }, []);
 
   const scrollToTop = () => {
-    window.scrollTo({
-      top: 0,
-      behavior: 'smooth'
-    })
-  }
+    window.scrollTo({ top: 0, behavior: "smooth" });
+  };
 
   return (
     <button
+      type="button"
       onClick={scrollToTop}
-      className={`fixed bottom-6 left-6 w-12 h-12 bg-gray-800 hover:bg-primary-500 text-white rounded-full shadow-lg transition-all duration-300 z-40 flex items-center justify-center ${
-        isVisible ? 'opacity-100 transform translate-y-0' : 'opacity-0 transform translate-y-10 pointer-events-none'
-      }`}
       aria-label="Scroll to top"
+      className={`fixed bottom-6 left-6 z-40 inline-flex items-center gap-2 px-3 py-2 font-mono text-xs bg-ink-900 border border-ink-700 text-bone-300 hover:border-lime-400 hover:text-lime-400 transition-all rounded ${
+        isVisible
+          ? "opacity-100 translate-y-0"
+          : "opacity-0 translate-y-4 pointer-events-none"
+      }`}
     >
-      <ChevronUp size={20} />
+      <ArrowUp size={14} />
+      <span>cd /top</span>
     </button>
-  )
+  );
 }

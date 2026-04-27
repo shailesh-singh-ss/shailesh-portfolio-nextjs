@@ -1,128 +1,100 @@
 "use client";
 
-import { portfolioData } from "@/data/portfolio";
 import Image from "next/image";
-import { useRef } from "react";
+import { motion } from "framer-motion";
+import { portfolioData } from "@/data/portfolio";
+import TermWindow from "@/components/ui/TermWindow";
 
 export default function About() {
-  const sectionRef = useRef<HTMLDivElement>(null);
-
-
   return (
-    <div ref={sectionRef} className="section-padding bg-gray-900">
+    <div className="section-padding">
       <div className="container-custom">
-        <div className="text-center mb-16">
-          <h2 className="text-4xl md:text-5xl font-bold text-white mb-4">
-            About <span className="text-gradient">Me</span>
+        <div className="mb-10">
+          <div className="font-mono text-xs text-ink-500 mb-2">
+            <span className="text-lime-400">$</span> cat about.md
+          </div>
+          <h2 className="font-mono text-3xl sm:text-4xl text-bone-50 font-bold tracking-tight">
+            ~/about_me
           </h2>
-          <p className="text-xl text-gray-400 max-w-3xl mx-auto">
-            {portfolioData.about.description}
-          </p>
         </div>
 
-        <div className="grid lg:grid-cols-2 gap-16 items-center">
-          {/* Left side - Image */}
-          <div className="relative animate-slide-in-left">
-            <div className="relative">
-              {/* Background decoration */}
-              <div className="absolute -inset-4 bg-gradient-to-r from-primary-500/20 to-accent-500/20 rounded-2xl blur-xl"></div>
-
-              {/* Main image container - hidden on mobile */}
-              <div className="relative glass-card p-6 hidden md:block">
+        <div className="grid lg:grid-cols-[0.9fr_1.1fr] gap-10 items-start">
+          <motion.div
+            initial={{ opacity: 0, x: -8 }}
+            whileInView={{ opacity: 1, x: 0 }}
+            viewport={{ once: true }}
+            transition={{ duration: 0.5 }}
+          >
+            <TermWindow title="~/identity.png" subtitle="image · 100%" glow>
+              <div className="relative aspect-[4/5] w-full rounded-md overflow-hidden border border-ink-700 bg-ink-800">
                 <Image
                   src={portfolioData.about.image}
-                  alt="About Shailesh"
-                  width={500}
-                  height={400}
-                  className="rounded-xl w-full h-auto"
+                  alt={`Portrait of ${portfolioData.personal.name}`}
+                  fill
+                  className="object-cover grayscale-[20%] hover:grayscale-0 transition-all duration-700"
+                  sizes="(max-width: 1024px) 90vw, 40vw"
                 />
+                <div className="absolute inset-0 bg-gradient-to-t from-ink-950/60 via-transparent to-transparent pointer-events-none" />
+                <div className="absolute bottom-3 left-3 right-3 font-mono text-[11px] flex items-center justify-between">
+                  <span className="text-lime-400">● recording</span>
+                  <span className="text-bone-300">
+                    {portfolioData.personal.location.split(",")[0]}
+                  </span>
+                </div>
               </div>
+            </TermWindow>
 
-              {/* Floating elements - hidden on mobile */}
-              <div className="absolute -top-6 -right-6 w-24 h-24 bg-gradient-to-br from-primary-500 to-accent-500 rounded-full  items-center justify-center animate-pulse-slow hidden md:flex">
-                <span className="text-white font-bold text-lg">AI</span>
+            <div className="mt-4 grid grid-cols-2 gap-2 font-mono text-xs">
+              <div className="bg-ink-900 border border-ink-700 rounded px-3 py-2">
+                <div className="text-ink-500">phone</div>
+                <div className="text-bone-200 truncate">
+                  {portfolioData.personal.phone}
+                </div>
               </div>
-
-              <div className="absolute -bottom-6 -left-6 w-20 h-20 bg-gradient-to-br from-accent-500 to-primary-500 rounded-full  items-center justify-center animate-bounce-slow hidden md:flex">
-                <span className="text-white font-bold">&lt;/&gt;</span>
+              <div className="bg-ink-900 border border-ink-700 rounded px-3 py-2">
+                <div className="text-ink-500">email</div>
+                <div className="text-bone-200 truncate">
+                  {portfolioData.personal.email}
+                </div>
               </div>
             </div>
-          </div>
+          </motion.div>
 
-          {/* Right side - Skills */}
-          <div className="space-y-8 animate-slide-in-right">
-            {portfolioData.about.skills.map((skill, index) => (
-              <div
-                key={skill.category}
-                className="glass-card p-6 hover:bg-white/10 transition-all duration-300 transform hover:scale-105"
-                style={{ animationDelay: `${index * 0.2}s` }}
-              >
-                <div className="flex gap-4 items-center">
-                  {/* Icon */}
-                  <div className="flex-shrink-0 w-16 h-16 bg-gradient-to-br from-gray-700 to-gray-800 rounded-lg flex items-center justify-center border border-gray-600">
-                    <Image
-                      src={skill.icon}
-                      alt={skill.category}
-                      width={32}
-                      height={32}
-                    />
+          <motion.div
+            initial={{ opacity: 0, x: 8 }}
+            whileInView={{ opacity: 1, x: 0 }}
+            viewport={{ once: true }}
+            transition={{ duration: 0.5 }}
+            className="space-y-6"
+          >
+            <p className="font-sans text-bone-200 text-base sm:text-lg leading-relaxed">
+              {portfolioData.about.intro}
+            </p>
+            <p className="font-sans text-bone-300 leading-relaxed">
+              {portfolioData.personal.bio}
+            </p>
+
+            <div className="pt-2">
+              <div className="font-mono text-xs text-ink-500 mb-2">
+                <span className="text-lime-400">$</span> tags --grep .
+              </div>
+              <div className="flex flex-wrap gap-2">
+                {portfolioData.about.tags.map((t) => (
+                  <div
+                    key={t.label}
+                    className="group bg-ink-900 border border-ink-700 hover:border-lime-400/40 rounded px-3 py-2 transition-colors"
+                  >
+                    <div className="font-mono text-sm text-lime-400">
+                      [{t.label}]
+                    </div>
+                    <div className="font-mono text-xs text-bone-400 mt-0.5">
+                      {t.description}
+                    </div>
                   </div>
-
-                  {/* Content */}
-                  <div className="flex-1">
-                    <h3 className="text-xl font-semibold text-white mb-2">
-                      {skill.category}
-                    </h3>
-                    <p className="text-gray-400 leading-relaxed">
-                      {skill.description}
-                    </p>
-                  </div>
-                </div>
-              </div>
-            ))}
-          </div>
-        </div>
-
-        {/* Additional Info Section */}
-        <div className="mt-20 text-center">
-          <div className="glass-card p-8 md:p-12">
-            <h3 className="text-2xl md:text-3xl font-bold text-white mb-6">
-              Why Choose Me?
-            </h3>
-            <div className="grid md:grid-cols-3 gap-8">
-              <div className="space-y-4">
-                <div className="w-16 h-16 bg-gradient-to-br from-primary-500 to-accent-500 rounded-full mx-auto flex items-center justify-center">
-                  <span className="text-white font-bold text-xl">1</span>
-                </div>
-                <h4 className="text-xl font-semibold text-white">Innovation</h4>
-                <p className="text-gray-400">
-                  Always exploring cutting-edge technologies and implementing
-                  creative solutions
-                </p>
-              </div>
-
-              <div className="space-y-4">
-                <div className="w-16 h-16 bg-gradient-to-br from-accent-500 to-primary-500 rounded-full mx-auto flex items-center justify-center">
-                  <span className="text-white font-bold text-xl">2</span>
-                </div>
-                <h4 className="text-xl font-semibold text-white">Quality</h4>
-                <p className="text-gray-400">
-                  Committed to writing clean, efficient, and maintainable code
-                </p>
-              </div>
-
-              <div className="space-y-4">
-                <div className="w-16 h-16 bg-gradient-to-br from-primary-500 to-accent-500 rounded-full mx-auto flex items-center justify-center">
-                  <span className="text-white font-bold text-xl">3</span>
-                </div>
-                <h4 className="text-xl font-semibold text-white">Growth</h4>
-                <p className="text-gray-400">
-                  Continuously learning and adapting to new challenges and
-                  technologies
-                </p>
+                ))}
               </div>
             </div>
-          </div>
+          </motion.div>
         </div>
       </div>
     </div>

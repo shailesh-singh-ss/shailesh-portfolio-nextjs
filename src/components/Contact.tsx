@@ -1,354 +1,337 @@
 "use client";
 
-import { portfolioData } from "@/data/portfolio";
-import { Send } from "lucide-react";
-import Image from "next/image";
-import { useEffect, useRef, useState } from "react";
+import { motion } from "framer-motion";
+import { useState } from "react";
 import emailjs from "@emailjs/browser";
+import { Send, CheckCircle2, AlertCircle, Github, Linkedin, Mail, MapPin, Phone } from "lucide-react";
+import { portfolioData } from "@/data/portfolio";
+import TermWindow from "@/components/ui/TermWindow";
 
 export default function Contact() {
-    const sectionRef = useRef<HTMLDivElement>(null);
-    const [formData, setFormData] = useState({
-        name: "",
-        email: "",
-        subject: "",
-        message: "",
-    });
-    const [isSubmitting, setIsSubmitting] = useState(false);
-    const [submitStatus, setSubmitStatus] = useState<
-        "idle" | "success" | "error"
-    >("idle");
+  const [formData, setFormData] = useState({
+    name: "",
+    email: "",
+    subject: "",
+    message: "",
+  });
+  const [isSubmitting, setIsSubmitting] = useState(false);
+  const [status, setStatus] = useState<"idle" | "success" | "error">("idle");
+  const [errorMessage, setErrorMessage] = useState<string>("");
 
-    useEffect(() => {
-        const observer = new IntersectionObserver(
-            (entries) => {
-                entries.forEach((entry) => {
-                    if (entry.isIntersecting) {
-                        entry.target.classList.add("animate-fade-in");
-                    }
-                });
-            },
-            { threshold: 0.1 }
-        );
+  const handleChange = (
+    e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement>,
+  ) => {
+    const { name, value } = e.target;
+    setFormData((prev) => ({ ...prev, [name]: value }));
+  };
 
-        if (sectionRef.current) {
-            observer.observe(sectionRef.current);
-        }
+  const handleSubmit = async (e: React.FormEvent) => {
+    e.preventDefault();
+    setIsSubmitting(true);
+    setErrorMessage("");
 
-        return () => observer.disconnect();
-    }, []);
+    const serviceId = process.env.NEXT_PUBLIC_EMAILJS_SERVICE_ID;
+    const templateId = process.env.NEXT_PUBLIC_EMAILJS_TEMPLATE_ID;
+    const publicKey = process.env.NEXT_PUBLIC_EMAILJS_PUBLIC_KEY;
 
-    const handleInputChange = (
-        e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement>
-    ) => {
-        const { name, value } = e.target;
-        setFormData((prev) => ({
-            ...prev,
-            [name]: value,
-        }));
-    };
+    if (!serviceId || !templateId || !publicKey) {
+      const missing = [
+        !serviceId && "NEXT_PUBLIC_EMAILJS_SERVICE_ID",
+        !templateId && "NEXT_PUBLIC_EMAILJS_TEMPLATE_ID",
+        !publicKey && "NEXT_PUBLIC_EMAILJS_PUBLIC_KEY",
+      ]
+        .filter(Boolean)
+        .join(", ");
+      console.error(
+        `[contact] EmailJS env vars missing: ${missing}. Set them in .env.local and restart dev server.`,
+      );
+      setErrorMessage("contact form is not configured · email shailesh directly");
+      setStatus("error");
+      setIsSubmitting(false);
+      setTimeout(() => {
+        setStatus("idle");
+        setErrorMessage("");
+      }, 5000);
+      return;
+    }
 
-    const handleSubmit = async (e: React.FormEvent) => {
-        e.preventDefault();
-        setIsSubmitting(true);
+    try {
+      const templateParams = {
+        name: formData.name,
+        email: formData.email,
+        subject: formData.subject,
+        message: formData.message,
+        time: new Date().toLocaleString("en-IN", {
+          timeZone: "Asia/Kolkata",
+          year: "numeric",
+          month: "long",
+          day: "numeric",
+          hour: "2-digit",
+          minute: "2-digit",
+        }),
+      };
 
-        
-        try {
-            // EmailJS configuration
-            const templateParams = {
-                name: formData.name,
-                email: formData.email,
-                subject: formData.subject,
-                message: formData.message,
-                time: new Date().toLocaleString('en-IN', {
-                    timeZone: 'Asia/Kolkata',
-                    year: 'numeric',
-                    month: 'long',
-                    day: 'numeric',
-                    hour: '2-digit',
-                    minute: '2-digit',
-                }),
-            };
+      await emailjs.send(serviceId, templateId, templateParams, publicKey);
 
-            await emailjs.send(
-                process.env.NEXT_PUBLIC_EMAILJS_SERVICE_ID!,
-                process.env.NEXT_PUBLIC_EMAILJS_TEMPLATE_ID!,
-                templateParams,
-                process.env.NEXT_PUBLIC_EMAILJS_PUBLIC_KEY!
-            );
+      setStatus("success");
+      setFormData({ name: "", email: "", subject: "", message: "" });
+    } catch (error: unknown) {
+      const e = error as { text?: string; status?: number; message?: string };
+      const detail =
+        e?.text ?? e?.message ?? (typeof error === "string" ? error : "");
+      const code = e?.status ? `${e.status} · ` : "";
+      console.error(
+        `[contact] EmailJS send failed: ${code}${detail || JSON.stringify(error)}`,
+      );
+      setErrorMessage(detail ? `${code}${detail}` : "delivery failed · try again");
+      setStatus("error");
+    } finally {
+      setIsSubmitting(false);
+      setTimeout(() => {
+        setStatus("idle");
+        setErrorMessage("");
+      }, 5000);
+    }
+  };
 
-            setSubmitStatus("success");
-            setFormData({ name: "", email: "", subject: "", message: "" });
-        } catch (error) {
-            console.error("EmailJS error:", error);
-            setSubmitStatus("error");
-        } finally {
-            setIsSubmitting(false);
-            setTimeout(() => setSubmitStatus("idle"), 3000);
-        }
-    };
-
-    return (
-        <div ref={sectionRef} className="section-padding bg-gray-900">
-            <div className="container-custom">
-                <div className="text-center mb-16">
-                    <h2 className="text-4xl md:text-5xl font-bold text-white mb-4">
-                        Get In <span className="text-gradient">Touch</span>
-                    </h2>
-                    <p className="text-xl text-gray-400 max-w-3xl mx-auto">
-                        Ready to start your next project? Let&apos;s discuss how
-                        we can work together to bring your ideas to life
-                    </p>
-                </div>
-
-                <div className="grid lg:grid-cols-2 gap-16">
-                    {/* Contact Information */}
-                    <div className="space-y-8 animate-slide-in-left">
-                        <div>
-                            <h3 className="text-2xl font-bold text-white mb-6">
-                                Let&apos;s Connect
-                            </h3>
-                            <p className="text-gray-300 leading-relaxed mb-8">
-                                I&apos;m always excited to discuss new
-                                opportunities, collaborate on interesting
-                                projects, or just have a chat about technology
-                                and innovation. Feel free to reach out!
-                            </p>
-                        </div>
-
-                        {/* Contact Methods */}
-                        <div className="space-y-6">
-                            <a
-                                href={`mailto:${portfolioData.personal.email}`}
-                                className="flex items-center gap-4 glass-card p-6 hover:bg-white/10 transition-all duration-300 transform hover:scale-105 group"
-                            >
-                                <div className="w-12 h-12 bg-gradient-to-br from-primary-500 to-accent-500 rounded-lg flex items-center justify-center">
-                                    <Image
-                                        src="/assets/contact/emailIcon.png"
-                                        alt="Email"
-                                        width={24}
-                                        height={24}
-                                    />
-                                </div>
-                                <div>
-                                    <h4 className="text-lg font-semibold text-white group-hover:text-primary-400 transition-colors duration-300">
-                                        Email
-                                    </h4>
-                                    <p className="text-gray-400">
-                                        {portfolioData.personal.email}
-                                    </p>
-                                </div>
-                            </a>
-
-                            <a
-                                href={portfolioData.personal.social.linkedin}
-                                target="_blank"
-                                rel="noopener noreferrer"
-                                className="flex items-center gap-4 glass-card p-6 hover:bg-white/10 transition-all duration-300 transform hover:scale-105 group"
-                            >
-                                <div className="w-12 h-12 bg-gradient-to-br from-primary-500 to-accent-500 rounded-lg flex items-center justify-center">
-                                    <Image
-                                        src="/assets/contact/linkedinIcon.png"
-                                        alt="LinkedIn"
-                                        width={24}
-                                        height={24}
-                                    />
-                                </div>
-                                <div>
-                                    <h4 className="text-lg font-semibold text-white group-hover:text-primary-400 transition-colors duration-300">
-                                        LinkedIn
-                                    </h4>
-                                    <p className="text-gray-400">
-                                        Let&apos;s connect professionally
-                                    </p>
-                                </div>
-                            </a>
-
-                            <a
-                                href={portfolioData.personal.social.github}
-                                target="_blank"
-                                rel="noopener noreferrer"
-                                className="flex items-center gap-4 glass-card p-6 hover:bg-white/10 transition-all duration-300 transform hover:scale-105 group"
-                            >
-                                <div className="w-12 h-12 bg-gradient-to-br from-primary-500 to-accent-500 rounded-lg flex items-center justify-center">
-                                    <Image
-                                        src="/assets/contact/githubIcon.png"
-                                        alt="GitHub"
-                                        width={24}
-                                        height={24}
-                                    />
-                                </div>
-                                <div>
-                                    <h4 className="text-lg font-semibold text-white group-hover:text-primary-400 transition-colors duration-300">
-                                        GitHub
-                                    </h4>
-                                    <p className="text-gray-400">
-                                        Check out my code
-                                    </p>
-                                </div>
-                            </a>
-                        </div>
-
-                        {/* Quick Stats */}
-                        <div className="glass-card p-6">
-                            <h4 className="text-lg font-semibold text-white mb-4">
-                                Response Time
-                            </h4>
-                            <div className="grid grid-cols-2 gap-4">
-                                <div className="text-center">
-                                    <div className="text-2xl font-bold text-gradient mb-1">
-                                        24hrs
-                                    </div>
-                                    <p className="text-gray-400 text-sm">
-                                        Email Response
-                                    </p>
-                                </div>
-                                <div className="text-center">
-                                    <div className="text-2xl font-bold text-gradient mb-1">
-                                        100%
-                                    </div>
-                                    <p className="text-gray-400 text-sm">
-                                        Professional
-                                    </p>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-
-                    {/* Contact Form */}
-                    <div className="animate-slide-in-right">
-                        <div className="glass-card p-8">
-                            <h3 className="text-2xl font-bold text-white mb-6">
-                                Send Message
-                            </h3>
-
-                            <form onSubmit={handleSubmit} className="space-y-6">
-                                <div className="grid md:grid-cols-2 gap-6">
-                                    <div>
-                                        <label
-                                            htmlFor="name"
-                                            className="block text-sm font-semibold text-white mb-2"
-                                        >
-                                            Name *
-                                        </label>
-                                        <input
-                                            type="text"
-                                            id="name"
-                                            name="name"
-                                            value={formData.name}
-                                            onChange={handleInputChange}
-                                            required
-                                            className="w-full px-4 py-3 bg-gray-800 border border-gray-600 rounded-lg text-white placeholder-gray-400 focus:border-primary-500 focus:ring-2 focus:ring-primary-500/20 transition-all duration-300"
-                                            placeholder="Your Name"
-                                        />
-                                    </div>
-                                    <div>
-                                        <label
-                                            htmlFor="email"
-                                            className="block text-sm font-semibold text-white mb-2"
-                                        >
-                                            Email *
-                                        </label>
-                                        <input
-                                            type="email"
-                                            id="email"
-                                            name="email"
-                                            value={formData.email}
-                                            onChange={handleInputChange}
-                                            required
-                                            className="w-full px-4 py-3 bg-gray-800 border border-gray-600 rounded-lg text-white placeholder-gray-400 focus:border-primary-500 focus:ring-2 focus:ring-primary-500/20 transition-all duration-300"
-                                            placeholder="your.email@example.com"
-                                        />
-                                    </div>
-                                </div>
-
-                                <div>
-                                    <label
-                                        htmlFor="subject"
-                                        className="block text-sm font-semibold text-white mb-2"
-                                    >
-                                        Subject *
-                                    </label>
-                                    <input
-                                        type="text"
-                                        id="subject"
-                                        name="subject"
-                                        value={formData.subject}
-                                        onChange={handleInputChange}
-                                        required
-                                        className="w-full px-4 py-3 bg-gray-800 border border-gray-600 rounded-lg text-white placeholder-gray-400 focus:border-primary-500 focus:ring-2 focus:ring-primary-500/20 transition-all duration-300"
-                                        placeholder="What's this about?"
-                                    />
-                                </div>
-
-                                <div>
-                                    <label
-                                        htmlFor="message"
-                                        className="block text-sm font-semibold text-white mb-2"
-                                    >
-                                        Message *
-                                    </label>
-                                    <textarea
-                                        id="message"
-                                        name="message"
-                                        value={formData.message}
-                                        onChange={handleInputChange}
-                                        required
-                                        rows={6}
-                                        className="w-full px-4 py-3 bg-gray-800 border border-gray-600 rounded-lg text-white placeholder-gray-400 focus:border-primary-500 focus:ring-2 focus:ring-primary-500/20 transition-all duration-300 resize-none"
-                                        placeholder="Tell me about your project or just say hello..."
-                                    />
-                                </div>
-
-                                <button
-                                    type="submit"
-                                    disabled={isSubmitting}
-                                    className="w-full glow-button bg-gradient-to-r from-primary-500 to-accent-500 text-white px-8 py-4 rounded-lg font-semibold transition-all duration-300 hover:scale-105 disabled:opacity-50 disabled:cursor-not-allowed flex items-center justify-center gap-2"
-                                >
-                                    {isSubmitting ? (
-                                        <>
-                                            <div className="w-5 h-5 border-2 border-white border-t-transparent rounded-full animate-spin"></div>
-                                            Sending...
-                                        </>
-                                    ) : (
-                                        <>
-                                            <Send size={20} />
-                                            Send Message
-                                        </>
-                                    )}
-                                </button>
-
-                                {submitStatus === "success" && (
-                                    <div className="p-4 bg-green-500/20 border border-green-500 rounded-lg text-green-400 text-center">
-                                        Thank you! Your message has been sent
-                                        successfully.
-                                    </div>
-                                )}
-
-                                {submitStatus === "error" && (
-                                    <div className="p-4 bg-red-500/20 border border-red-500 rounded-lg text-red-400 text-center">
-                                        Sorry, there was an error sending your
-                                        message. Please try again.
-                                    </div>
-                                )}
-                            </form>
-                        </div>
-                    </div>
-                </div>
-
-                {/* Footer */}
-                <div className="mt-20 pt-12 border-t border-gray-700 text-center">
-                    <p className="text-gray-400 mb-4">
-                        Made with ❤️ by{" "}
-                        <span className="text-gradient font-semibold">
-                            Shailesh Singh
-                        </span>
-                    </p>
-                    <p className="text-gray-500 text-sm">
-                        © 2025 Shailesh Singh. All rights reserved.
-                    </p>
-                </div>
-            </div>
+  return (
+    <div className="section-padding pb-12">
+      <div className="container-custom">
+        <div className="mb-10">
+          <div className="font-mono text-xs text-ink-500 mb-2">
+            <span className="text-lime-400">$</span> ssh shailesh@portfolio
+          </div>
+          <h2 className="font-mono text-3xl sm:text-4xl text-bone-50 font-bold tracking-tight">
+            ~/contact
+          </h2>
+          <p className="font-mono text-sm text-bone-400 mt-2">
+            {"// open a session — i'll reply within 24h"}
+          </p>
         </div>
-    );
+
+        <div className="grid lg:grid-cols-[0.95fr_1.05fr] gap-6 lg:gap-8">
+          <motion.div
+            initial={{ opacity: 0, y: 6 }}
+            whileInView={{ opacity: 1, y: 0 }}
+            viewport={{ once: true }}
+            transition={{ duration: 0.4 }}
+          >
+            <TermWindow title="contact.json" subtitle="readonly">
+              <pre className="font-mono text-sm text-bone-300 leading-relaxed whitespace-pre-wrap">
+{`{
+  "name":     "${portfolioData.personal.name}",
+  "role":     "${portfolioData.personal.title}",
+  "email":    "${portfolioData.personal.email}",
+  "phone":    "${portfolioData.personal.phone}",
+  "location": "${portfolioData.personal.location}",
+  "timezone": "Asia/Kolkata (IST)",
+  "status":   `}<span className="text-lime-400">{`"open to opportunities"`}</span>{`
+}`}
+              </pre>
+            </TermWindow>
+
+            <div className="mt-4 grid grid-cols-1 sm:grid-cols-2 gap-2 font-mono text-sm">
+              <a
+                href={`mailto:${portfolioData.personal.email}`}
+                className="flex items-center gap-2 px-3 py-2.5 bg-ink-900 border border-ink-700 hover:border-lime-400/40 rounded transition-colors group"
+              >
+                <Mail size={14} className="text-lime-400" />
+                <span className="text-bone-300 group-hover:text-bone-100 truncate">
+                  {portfolioData.personal.email}
+                </span>
+              </a>
+              <a
+                href={`tel:${portfolioData.personal.phone}`}
+                className="flex items-center gap-2 px-3 py-2.5 bg-ink-900 border border-ink-700 hover:border-lime-400/40 rounded transition-colors group"
+              >
+                <Phone size={14} className="text-lime-400" />
+                <span className="text-bone-300 group-hover:text-bone-100 truncate">
+                  {portfolioData.personal.phone}
+                </span>
+              </a>
+              <a
+                href={portfolioData.personal.social.github}
+                target="_blank"
+                rel="noopener noreferrer"
+                className="flex items-center gap-2 px-3 py-2.5 bg-ink-900 border border-ink-700 hover:border-lime-400/40 rounded transition-colors group"
+              >
+                <Github size={14} className="text-lime-400" />
+                <span className="text-bone-300 group-hover:text-bone-100">
+                  github / shailesh-singh-ss
+                </span>
+              </a>
+              <a
+                href={portfolioData.personal.social.linkedin}
+                target="_blank"
+                rel="noopener noreferrer"
+                className="flex items-center gap-2 px-3 py-2.5 bg-ink-900 border border-ink-700 hover:border-lime-400/40 rounded transition-colors group"
+              >
+                <Linkedin size={14} className="text-lime-400" />
+                <span className="text-bone-300 group-hover:text-bone-100">
+                  linkedin / shailesh-singh
+                </span>
+              </a>
+            </div>
+
+            <div className="mt-4 flex items-center gap-2 font-mono text-xs text-ink-500">
+              <MapPin size={12} className="text-lime-400" />
+              {portfolioData.personal.location}
+            </div>
+          </motion.div>
+
+          <motion.form
+            onSubmit={handleSubmit}
+            initial={{ opacity: 0, y: 6 }}
+            whileInView={{ opacity: 1, y: 0 }}
+            viewport={{ once: true }}
+            transition={{ duration: 0.4, delay: 0.1 }}
+            className="bg-ink-900 border border-ink-700 rounded-md p-5 sm:p-6"
+          >
+            <div className="font-mono text-xs text-ink-500 mb-4 flex items-center gap-2">
+              <span className="text-lime-400">●</span> session active · /dev/pts/0
+            </div>
+
+            <div className="space-y-4">
+              <Field
+                label="from"
+                name="name"
+                type="text"
+                value={formData.name}
+                onChange={handleChange}
+                placeholder="your name"
+                required
+              />
+              <Field
+                label="reply-to"
+                name="email"
+                type="email"
+                value={formData.email}
+                onChange={handleChange}
+                placeholder="you@domain.com"
+                required
+              />
+              <Field
+                label="subject"
+                name="subject"
+                type="text"
+                value={formData.subject}
+                onChange={handleChange}
+                placeholder="what's this about?"
+                required
+              />
+              <div>
+                <div className="flex items-baseline gap-2 mb-1.5">
+                  <span className="text-lime-400 font-mono text-sm">&gt;</span>
+                  <label
+                    htmlFor="contact-message"
+                    className="font-mono text-xs text-ink-500 uppercase tracking-wider"
+                  >
+                    message
+                  </label>
+                </div>
+                <textarea
+                  id="contact-message"
+                  name="message"
+                  rows={6}
+                  required
+                  value={formData.message}
+                  onChange={handleChange}
+                  placeholder="paste your message here..."
+                  className="term-input resize-none"
+                />
+              </div>
+
+              <div className="flex flex-wrap items-center gap-3 pt-2">
+                <button
+                  type="submit"
+                  disabled={isSubmitting}
+                  className="term-button-primary disabled:opacity-60 disabled:cursor-not-allowed"
+                >
+                  {isSubmitting ? (
+                    <>
+                      <span className="loading-dots">
+                        <div /><div /><div />
+                      </span>
+                      transmitting
+                    </>
+                  ) : (
+                    <>
+                      <Send size={14} /> send-mail
+                    </>
+                  )}
+                </button>
+
+                {status === "success" && (
+                  <span className="inline-flex items-center gap-1.5 font-mono text-sm text-lime-400">
+                    <CheckCircle2 size={14} /> 200 ok · message delivered
+                  </span>
+                )}
+                {status === "error" && (
+                  <span className="inline-flex items-center gap-1.5 font-mono text-sm text-signal-rose">
+                    <AlertCircle size={14} />
+                    {errorMessage || "delivery failed · try again"}
+                  </span>
+                )}
+              </div>
+            </div>
+          </motion.form>
+        </div>
+
+        <div className="mt-16 pt-6 border-t border-ink-700">
+          <div className="flex flex-col sm:flex-row items-start sm:items-center justify-between gap-3 font-mono text-xs text-ink-500">
+            <div>
+              <span className="text-lime-400">▌</span> built with next.js · framer-motion · three.js
+            </div>
+            <div>
+              © {new Date().getFullYear()} {portfolioData.personal.name} · all
+              rights reserved
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  );
+}
+
+function Field({
+  label,
+  name,
+  type,
+  value,
+  onChange,
+  placeholder,
+  required,
+}: {
+  label: string;
+  name: string;
+  type: string;
+  value: string;
+  onChange: (e: React.ChangeEvent<HTMLInputElement>) => void;
+  placeholder: string;
+  required?: boolean;
+}) {
+  return (
+    <div>
+      <div className="flex items-baseline gap-2 mb-1.5">
+        <span className="text-lime-400 font-mono text-sm">&gt;</span>
+        <label
+          htmlFor={`contact-${name}`}
+          className="font-mono text-xs text-ink-500 uppercase tracking-wider"
+        >
+          {label}
+        </label>
+        {required && <span className="text-signal-amber text-xs">*</span>}
+      </div>
+      <input
+        id={`contact-${name}`}
+        type={type}
+        name={name}
+        value={value}
+        onChange={onChange}
+        placeholder={placeholder}
+        required={required}
+        className="term-input"
+      />
+    </div>
+  );
 }
